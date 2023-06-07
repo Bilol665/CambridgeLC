@@ -24,13 +24,12 @@ import java.util.List;
 public class UserEntity extends BaseEntity implements UserDetails {
     @NotBlank(message = "Full name cannot be empty")
     private String fullName;
-    @NotBlank(message = "Age cannot be empty")
     private Integer age;
     @NotBlank(message = "Password cannot be empty")
     private String password;
     @NotBlank(message = "Phone number cannot be empty")
     @Column(unique = true)
-    private String phoneNumber;
+    private String username;
     private Integer coins;
     private Integer solvedTasks;
     private Boolean isFailed;
@@ -55,7 +54,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return phoneNumber;
+        return username;
     }
 
     @Override
