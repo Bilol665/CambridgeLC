@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class AuthenticationService {
-    public void authenticate(Claims claims, HttpServletRequest request) throws JsonProcessingException {
+    public void Authenticate(Claims claims, HttpServletRequest request) throws JsonProcessingException {
         Object obj = claims.get("roles");
         List<String> roles = List.of(obj.toString());
         String username = claims.getSubject();

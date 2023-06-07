@@ -4,5 +4,4 @@ public enum TaskDifficulty {
     EASY,
     MEDIUM,
     HARD,
-    BILOL_BOT
 }

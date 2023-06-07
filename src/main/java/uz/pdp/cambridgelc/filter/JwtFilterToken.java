@@ -32,7 +32,7 @@ public class JwtFilterToken extends OncePerRequestFilter {
         token = token.substring(7);
         Jws<Claims> claimsJws = jwtService.extractToken(token);
 
-        authenticationService.authenticate(claimsJws.getBody(), request);
+        authenticationService.Authenticate(claimsJws.getBody(), request);
         filterChain.doFilter(request, response);
     }
 }

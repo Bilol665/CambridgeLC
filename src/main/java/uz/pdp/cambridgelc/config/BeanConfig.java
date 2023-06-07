@@ -10,11 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class BeanConfig {
     @Bean
     public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration()
-                .setFieldMatchingEnabled(true)
-                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
-        return modelMapper;
+        return new ModelMapper();
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
