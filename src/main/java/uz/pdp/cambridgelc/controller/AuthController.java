@@ -41,7 +41,12 @@ public class AuthController {
         return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_ADMIN)));
     }
 
-
+    @PostMapping("/addSupport")
+    private ResponseEntity<UserEntity> addSupport(
+            @RequestBody UserCreateDto dto
+    ){
+        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_SUPPORT)));
+    }
     @GetMapping("/login")
     private ResponseEntity<JwtResponse>login(
             @RequestBody LoginDto loginDto
