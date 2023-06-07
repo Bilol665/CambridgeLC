@@ -1,5 +1,6 @@
 package uz.pdp.cambridgelc.entity.course;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,6 +16,7 @@ import uz.pdp.cambridgelc.entity.BaseEntity;
 @Builder
 public class CourseEntity extends BaseEntity {
     @NotBlank
+    @Column(unique = true)
     private String title;
     @Enumerated(EnumType.STRING)
     private CourseLevel level;
