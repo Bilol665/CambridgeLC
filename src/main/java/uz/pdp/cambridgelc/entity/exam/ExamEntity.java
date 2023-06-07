@@ -20,9 +20,6 @@ import java.util.Map;
 public class ExamEntity extends BaseEntity {
     @ManyToOne
     private GroupEntity group;
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    private Map<UserEntity,Double> examResults;
     private Double acceptableScore;
     private Integer reward;
-
 }
