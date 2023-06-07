@@ -12,6 +12,8 @@ import uz.pdp.cambridgelc.exceptions.NotCourseException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +35,18 @@ public class CourseService {
     public List<CourseEntity> getAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return courseRepository.findAll(pageable).getContent();
+    }
+    public CourseEntity updateSupport(CourseDto courseDto, UUID id){
+        CourseEntity map = modelMapper.map(courseDto, CourseEntity.class);
+        map.setId(id);
+        courseRepository.save(map);
+        return map;
+    }
+    public CourseEntity updateTeacher(String title,UUID id){
+        CourseEntity course=courseRepository.findById(id).orElseThrow(
+               () -> new NotCourseException("Course not found")
+       );
+        course.setTitle(title);
+        return courseRepository.save(course);
     }
 }
