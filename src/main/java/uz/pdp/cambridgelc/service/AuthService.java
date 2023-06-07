@@ -13,8 +13,8 @@ import uz.pdp.cambridgelc.repository.UserRepository;
 public class AuthService implements UserDetailsService {
     private final UserRepository userRepository;
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findUserEntitiesByUsername(username)
+    public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
+        return userRepository.findUserEntitiesByPhoneNumber(phoneNumber)
                 .orElseThrow(
                         () -> new DataNotFoundException("User not found!")
                 );
