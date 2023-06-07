@@ -35,7 +35,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     requests
                             .requestMatchers("/api/v1/auth/login").permitAll()
-                            .requestMatchers("/api/v1/course/admin/add-course").permitAll()
                             .anyRequest().authenticated();
                 })
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
