@@ -36,7 +36,7 @@ public class UserService {
     }
 
     public JwtResponse login(LoginDto loginDto){
-        UserEntity userEntity=userRepository.findUserEntitiesByUsername(loginDto.getUsername())
+        UserEntity userEntity=userRepository.findUserEntityByUsername(loginDto.getUsername())
                 .orElseThrow(()-> new DataNotFoundException("User not found"));
         if (passwordEncoder.matches(loginDto.getPassword(),userEntity.getPassword())){
             String accessToken=jwtService.generateAccessToken(userEntity);
