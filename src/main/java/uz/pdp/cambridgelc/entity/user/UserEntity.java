@@ -1,15 +1,13 @@
 package uz.pdp.cambridgelc.entity.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import uz.pdp.cambridgelc.entity.BaseEntity;
+import uz.pdp.cambridgelc.entity.group.GroupEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +35,8 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private List<UserRole> roles;
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+    @ManyToOne
+    private GroupEntity group;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
