@@ -19,24 +19,21 @@ public class GroupController {
     private final GroupService groupService;
 
     @PostMapping("/add/group")
-    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT')")
     public ResponseEntity<GroupEntity> addGroup(
             @RequestBody GroupCreateDto groupCreateDto
     ){
             return ResponseEntity.ok(groupService.save(groupCreateDto));
     }
 
-    @PostMapping("/add/student")
-    @PreAuthorize(value = "hasAnyRole('ADMIN','TEACHER','SUPPORT')")
-    public ResponseEntity<GroupEntity> addStudent(
-            @RequestParam UUID groupId,
-            @RequestBody UserEntity student
-    ){
-        return ResponseEntity.ok(groupService.addStudent(groupId,student));
-    }
+//    @PostMapping("/add/student")
+//    public ResponseEntity<GroupEntity> addStudent(
+//            @RequestParam UUID groupId,
+//            @RequestBody UserEntity student
+//    ){
+//        return ResponseEntity.ok(groupService.addStudent(groupId,student));
+//    }
 
     @GetMapping("/get/allGroups")
-    @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<List<GroupEntity>> getAllGroups(
             @RequestParam int page,
             @RequestParam int size
@@ -70,12 +67,12 @@ public class GroupController {
             return ResponseEntity.ok(groupService.update(groupId,newTeacher));
     }
 
-    @PostMapping("/update/setFailedStudents")
-    @PreAuthorize(value = "hasRole('TEACHER')")
-    public ResponseEntity<GroupEntity> setFailedStudents(
-            @RequestParam UUID groupId,
-            @RequestBody List<UserEntity> failedStudents
-    ){
-        return ResponseEntity.ok(groupService.update(groupId,failedStudents));
-    }
+//    @PostMapping("/update/setFailedStudents")
+//    @PreAuthorize(value = "hasRole('TEACHER')")
+//    public ResponseEntity<GroupEntity> setFailedStudents(
+//            @RequestParam UUID groupId,
+//            @RequestBody List<UserEntity> failedStudents
+//    ){
+//        return ResponseEntity.ok(groupService.update(groupId,failedStudents));
+//    }
 }
