@@ -17,4 +17,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> groupNotFoundException(GroupNotFoundException e){
         return ResponseEntity.status(404).body(e.getMessage());
     }
+
 }

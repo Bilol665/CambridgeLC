@@ -25,17 +25,16 @@ public class SecurityConfig {
     private final JwtService jwtService;
     private final AuthService authService;
     private final AuthenticationService authenticationService;
-
     private final PasswordEncoder passwordEncoder;
-
+    private final String[] addUsers={"/api/v1/auth/addStudent","/api/v1/auth/addTeacher","/api/v1/auth/addSupport"};
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> {
                     requests
-
-                            .requestMatchers("/api/v1/auth/**").permitAll()
+                            .requestMatchers("/api/v1/auth/login").permitAll()
+                            .requestMatchers(addUsers).hasRole("ADMIN")
                             .requestMatchers("/api/v1/course/admin/delete-course").permitAll()
                             .requestMatchers("/api/v1/course/teacher/edit-title").permitAll()
                             .requestMatchers("/api/v1/course/admin/add-course").permitAll()
