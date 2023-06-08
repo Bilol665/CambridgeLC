@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/course/")
+@RequestMapping("/api/v1/course")
 public class CourseController {
     private final CourseService courseService;
 

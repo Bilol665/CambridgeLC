@@ -18,5 +18,4 @@ public class GroupCreateDto {
     private CourseEntity course;
     private UserEntity teacher;
     private List<UserEntity> students;
-    private List<UserEntity> failedStudents;
 }

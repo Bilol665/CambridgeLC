@@ -33,7 +33,6 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> {
                     requests
-
                             .requestMatchers("/api/v1/auth/login").permitAll()
                             .requestMatchers(addUsers).hasRole("ADMIN")
                             .requestMatchers("/api/v1/course/admin/delete-course").permitAll()
