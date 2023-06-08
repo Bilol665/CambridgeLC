@@ -18,8 +18,8 @@ import java.util.List;
 public class AuthController {
     private final UserService userService;
 
-    @PostMapping("/addUser")
-    private ResponseEntity<UserEntity> addUser(
+    @PostMapping("/addStudent")
+    private ResponseEntity<UserEntity> addStudent(
             @RequestBody UserCreateDto dto
     ){
         return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_STUDENT)));

@@ -12,4 +12,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> authException(NotCourseException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
 }
