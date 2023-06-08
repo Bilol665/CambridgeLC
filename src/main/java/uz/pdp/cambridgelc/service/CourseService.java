@@ -1,5 +1,6 @@
 package uz.pdp.cambridgelc.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
@@ -12,11 +13,11 @@ import uz.pdp.cambridgelc.exceptions.NotCourseException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CourseService {
     private final CourseRepository courseRepository;
     private final ModelMapper modelMapper;
@@ -30,7 +31,7 @@ public class CourseService {
         }
     }
     public void deleteByTitle(String title) {
-        courseRepository.deleteCourseEntityByTitle(title);
+        courseRepository.removeCourseEntityByTitle(title);
     }
     public List<CourseEntity> getAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);

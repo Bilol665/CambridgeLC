@@ -34,14 +34,15 @@ public class CourseController {
     ){
         return courseService.getAll(page, size);
     }
-    @PostMapping("/support/edit-course")
+    @PostMapping("/support/edit-course/{id}")
     public CourseEntity editCourse(
             @PathVariable UUID id,
             @RequestBody CourseDto courseDto
     ){
         return courseService.updateSupport(courseDto,id);
     }
-    @PostMapping("/teacher/edit-title")
+    @PutMapping("/teacher/edit-title/{courseId}")
+//    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public CourseEntity editTitle(
             @PathVariable UUID courseId,
             @RequestParam String title

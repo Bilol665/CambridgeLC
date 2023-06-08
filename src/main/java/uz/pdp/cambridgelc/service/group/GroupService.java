@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.cambridgelc.entity.dto.GroupCreateDto;
 import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
+import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
 import uz.pdp.cambridgelc.exceptions.GroupNotFoundException;
 import uz.pdp.cambridgelc.repository.GroupRepository;
 
@@ -27,7 +28,13 @@ public class GroupService {
     }
 
     public GroupEntity addStudent(UUID groupId,UserEntity student){
-        return groupRepository.updateGroupEntityById(groupId,student);
+        GroupEntity groupEntity = groupRepository.findById(groupId).orElseThrow(
+                () -> new DataNotFoundException("Group not found!")
+        );
+        List<UserEntity> students = groupEntity.getStudents();
+        students.add(student);
+        groupEntity.setStudents(students);
+        return groupRepository.save(groupEntity);
     }
 
     public GroupEntity getGroup(UUID groupId){
