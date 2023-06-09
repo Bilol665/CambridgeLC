@@ -26,12 +26,15 @@ public class SecurityConfig {
     private final AuthService authService;
     private final AuthenticationService authenticationService;
     private final PasswordEncoder passwordEncoder;
+    String[] adminOnly = new String[]{"/api/v1/admin/addStudent","/api/v1/admin/addTeacher","/api/v1/admin/addSupport"};
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/v1/auth/login").permitAll()
+                        .requestMatchers(adminOnly).hasRole("ADMIN")
+                        .requestMatchers("/api/v1/auth/addAdmin").hasRole("SUPPER_ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFilterToken(authenticationService,jwtService),
