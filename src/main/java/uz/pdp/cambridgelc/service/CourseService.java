@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.course.CourseLevel;
 import uz.pdp.cambridgelc.entity.dto.CourseDto;
+import uz.pdp.cambridgelc.entity.exam.TaskEntity;
 import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 
@@ -51,4 +52,6 @@ public class CourseService {
         course.setTitle(title);
         return courseRepository.save(course);
     }
+    //public boolean isFailed(UUID userId, TaskEntity taskEntity){}
+
 }
