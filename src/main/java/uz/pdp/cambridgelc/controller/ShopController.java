@@ -47,12 +47,13 @@ public class ShopController {
         productService.editTitle(title,id);
         return ResponseEntity.ok("");
     }
-    @PostMapping("/product/buy/{id}")
+    @PostMapping("/product/buy/{productId}")
+    @PreAuthorize(value = "hasRole('STUDENT')")
     public ResponseEntity<Object> buy(
             Principal principal,
-            @PathVariable UUID id
+            @PathVariable UUID productId
     ) {
-        productService.buy(id,principal);
+        productService.buy(productId,principal);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
