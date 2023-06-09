@@ -6,7 +6,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.GroupCreateDto;
 import uz.pdp.cambridgelc.entity.group.GroupEntity;
-import uz.pdp.cambridgelc.entity.user.UserEntity;
 import uz.pdp.cambridgelc.service.group.GroupService;
 
 import java.util.List;
@@ -15,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/group")
+//@EnableMethodSecurity()
 public class GroupController {
     private final GroupService groupService;
 
@@ -50,29 +50,29 @@ public class GroupController {
     }
 
     @PostMapping("/update/name")
-    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','TEACHER')")
+//    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','TEACHER')")
     public ResponseEntity<GroupEntity> updateName(
             @RequestParam UUID groupId,
             @RequestParam String name
     ){
-            return ResponseEntity.ok(groupService.update(groupId,name));
+            return ResponseEntity.ok(groupService.updateGroupName(groupId,name));
     }
 
     @PostMapping("/update/teacher")
-    @PreAuthorize(value = "hasRole('ADMIN')")
+//    @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> updateTeacher(
             @RequestParam UUID groupId,
-            @RequestBody UserEntity newTeacher
+            @RequestBody String newTeacher
     ){
-            return ResponseEntity.ok(groupService.update(groupId,newTeacher));
+            return ResponseEntity.ok(groupService.updateTeacher(groupId,newTeacher));
     }
 
-//    @PostMapping("/update/setFailedStudents")
+//    @PostMapping("/updateGroupName/setFailedStudents")
 //    @PreAuthorize(value = "hasRole('TEACHER')")
 //    public ResponseEntity<GroupEntity> setFailedStudents(
 //            @RequestParam UUID groupId,
 //            @RequestBody List<UserEntity> failedStudents
 //    ){
-//        return ResponseEntity.ok(groupService.update(groupId,failedStudents));
+//        return ResponseEntity.ok(groupService.updateGroupName(groupId,failedStudents));
 //    }
 }

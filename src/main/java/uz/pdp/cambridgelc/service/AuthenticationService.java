@@ -14,8 +14,7 @@ import java.util.List;
 @Service
 public class AuthenticationService {
     public void Authenticate(Claims claims, HttpServletRequest request) throws JsonProcessingException {
-        Object obj = claims.get("roles");
-        List<String> roles = List.of(obj.toString());
+        List<String> roles = (List<String>) claims.get("roles");
         String username = claims.getSubject();
 
         UsernamePasswordAuthenticationToken authentication =

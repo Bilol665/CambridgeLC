@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.course.CourseLevel;
 import uz.pdp.cambridgelc.entity.dto.CourseDto;
-import uz.pdp.cambridgelc.exceptions.NotCourseException;
+import uz.pdp.cambridgelc.exceptions.CourseNotFoundException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class CourseService {
             course.setLevel(CourseLevel.valueOf(courseDto.getLevel()));
             return courseRepository.save(course);
         }catch (Exception e){
-            throw new NotCourseException("Course level not found");
+            throw new CourseNotFoundException("Course level not found");
         }
     }
     public void deleteByTitle(String title) {
@@ -45,7 +45,7 @@ public class CourseService {
     }
     public CourseEntity updateTeacher(String title,UUID id){
         CourseEntity course=courseRepository.findById(id).orElseThrow(
-               () -> new NotCourseException("Course not found")
+               () -> new CourseNotFoundException("Course not found")
        );
         course.setTitle(title);
         return courseRepository.save(course);

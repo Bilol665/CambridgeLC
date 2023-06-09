@@ -7,11 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
-import uz.pdp.cambridgelc.entity.dto.CourseDto;
 import uz.pdp.cambridgelc.entity.dto.GroupCreateDto;
-import uz.pdp.cambridgelc.entity.dto.UserCreateDto;
 import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
+import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
 import uz.pdp.cambridgelc.exceptions.GroupNotFoundException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 import uz.pdp.cambridgelc.repository.GroupRepository;
@@ -29,12 +28,10 @@ public class GroupService {
     private final ModelMapper modelMapper;
 
     public GroupEntity save(GroupCreateDto groupCreateDto){
-        UserCreateDto teacherDto = groupCreateDto.getTeacher();
-        CourseDto courseDto = groupCreateDto.getCourse();
-        UserEntity teacher = userRepository.findUserEntityByUsername(teacherDto.getUsername())
-                .orElseThrow(() -> new GroupNotFoundException("Teacher Not Found"));
-        CourseEntity course = courseRepository.findByTitle(courseDto.getTitle())
-                .orElseThrow(() -> new GroupNotFoundException("Course Not Found"));
+        UserEntity teacher = userRepository.findUserEntityByUsername(groupCreateDto.getTeacherUsername())
+                .orElseThrow(() -> new DataNotFoundException("Teacher Not found"));
+        CourseEntity course = courseRepository.findByTitle(groupCreateDto.getCourseTitle())
+                .orElseThrow(() -> new DataNotFoundException("Course Not Found"));
 
         GroupEntity group = modelMapper.map(groupCreateDto, GroupEntity.class);
         group.setTeacher(teacher);
@@ -42,22 +39,23 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-//    public GroupEntity addStudent(UUID groupId,UserEntity student){
-//        GroupEntity groupEntity = groupRepository.findById(groupId).orElseThrow(
-//                () -> new DataNotFoundException("Group not found!")
-//        );
-//        List<UserEntity> students = groupEntity.getStudents();
-//        students.add(student);
-//        groupEntity.setStudents(students);
-//        return groupRepository.save(groupEntity);
-//    }
+    public GroupEntity addStudent(UUID groupId,String studentUsername){
+        GroupEntity groupEntity = groupRepository.findById(groupId).orElseThrow(
+                () -> new DataNotFoundException("Group not found!")
+        );
+        UserEntity userEntity = userRepository.findUserEntityByUsername(studentUsername)
+                .orElseThrow(() -> new DataNotFoundException("Student Not Found"));
+
+        userEntity.setGroup(groupEntity);
+        return userRepository.save(userEntity).getGroup();
+    }
 
     public GroupEntity getGroup(UUID groupId){
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group Not Found"));
     }
 
-    public GroupEntity update(UUID groupId,String name){
+    public GroupEntity updateGroupName(UUID groupId, String name){
         GroupEntity group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group Not Found"));
 
@@ -65,15 +63,17 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-    public GroupEntity update(UUID groupId, UserEntity newTeacher){
+    public GroupEntity updateTeacher(UUID groupId, String teacherUsername){
         GroupEntity group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group Not Found"));
 
-        group.setTeacher(newTeacher);
+        UserEntity teacher = userRepository.findUserEntityByUsername(teacherUsername)
+                .orElseThrow(() -> new DataNotFoundException("Teacher Not Found"));
+        group.setTeacher(teacher);
         return groupRepository.save(group);
     }
 
-//    public GroupEntity update(UUID groupId, List<UserEntity> failedStudents){
+//    public GroupEntity updateGroupName(UUID groupId, List<UserEntity> failedStudents){
 //        GroupEntity group = groupRepository.findById(groupId)
 //                .orElseThrow(() -> new GroupNotFoundException("Group Not Found"));
 //

@@ -11,6 +11,6 @@ import lombok.Setter;
 @Setter
 public class GroupCreateDto {
     private String name;
-    private CourseDto course;
-    private UserCreateDto teacher;
+    private String courseTitle;
+    private String teacherUsername;
 }
