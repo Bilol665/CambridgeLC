@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.pdp.cambridgelc.entity.product.ProductType;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,5 +12,5 @@ import uz.pdp.cambridgelc.entity.product.ProductType;
 public class ProductDto {
     private String title;
     private Integer price;
-    private ProductType type;
+    private String type;
 }
