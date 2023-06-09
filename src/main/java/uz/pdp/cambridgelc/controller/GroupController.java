@@ -18,6 +18,7 @@ public class GroupController {
     private final GroupService groupService;
 
     @PostMapping("/add/group")
+    @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> addGroup(
             @RequestBody GroupCreateDto groupCreateDto
     ){

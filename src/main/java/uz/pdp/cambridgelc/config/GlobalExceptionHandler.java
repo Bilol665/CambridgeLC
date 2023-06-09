@@ -8,15 +8,6 @@ import uz.pdp.cambridgelc.exceptions.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(value = {CourseNotFoundException.class})
-    public ResponseEntity<String> authException(CourseNotFoundException e) {
-        return ResponseEntity.status(404).body(e.getMessage());
-    }
-
-    @ExceptionHandler(value = {GroupNotFoundException.class})
-    public ResponseEntity<String> groupNotFoundException(GroupNotFoundException e){
-        return ResponseEntity.status(404).body(e.getMessage());
-    }
 
     @ExceptionHandler(value = {DataNotFoundException.class})
     public ResponseEntity<String> dataNotFoundException(DataNotFoundException e){

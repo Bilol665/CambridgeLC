@@ -40,6 +40,13 @@ public class AdminController {
         return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_ADMIN)));
     }
 
+    @PostMapping("/addSuperAdmin")
+    private ResponseEntity<UserEntity> addSuperAdmin(
+            @RequestBody UserCreateDto dto
+    ){
+        return ResponseEntity.ok(userService.saveUser(dto,List.of(UserRole.ROLE_SUPER_ADMIN)));
+    }
+
     @PostMapping("/addSupport")
     private ResponseEntity<UserEntity> addSupport(
             @RequestBody UserCreateDto dto
