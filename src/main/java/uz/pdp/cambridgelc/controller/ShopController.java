@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.ProductDto;
 import uz.pdp.cambridgelc.service.ProductService;
 
+import java.security.Principal;
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/shop")
@@ -29,5 +32,27 @@ public class ShopController {
     ) {
         return ResponseEntity.ok(productService.getAll(page, size));
     }
-
+    @DeleteMapping("/product/delete/{id}")
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public ResponseEntity<Object> deleteProduct(@PathVariable UUID id){
+        productService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PutMapping("/product/update-title/{id}")
+    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','SUPER_ADMIN')")
+    public ResponseEntity<Object> updateTitle(
+            @RequestParam String title,
+            @PathVariable UUID id
+    ) {
+        productService.editTitle(title,id);
+        return ResponseEntity.ok("");
+    }
+    @PostMapping("/product/buy/{id}")
+    public ResponseEntity<Object> buy(
+            Principal principal,
+            @PathVariable UUID id
+    ) {
+        productService.buy(id,principal);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
