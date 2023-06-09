@@ -11,7 +11,6 @@ import uz.pdp.cambridgelc.entity.dto.GroupCreateDto;
 import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
 import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
-import uz.pdp.cambridgelc.exceptions.GroupNotFoundException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 import uz.pdp.cambridgelc.repository.GroupRepository;
 import uz.pdp.cambridgelc.repository.UserRepository;
@@ -52,12 +51,12 @@ public class GroupService {
 
     public GroupEntity getGroup(UUID groupId){
         return groupRepository.findById(groupId)
-                .orElseThrow(() -> new GroupNotFoundException("Group Not Found"));
+                .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
     }
 
     public GroupEntity updateGroupName(UUID groupId, String name){
         GroupEntity group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new GroupNotFoundException("Group Not Found"));
+                .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
 
         group.setName(name);
         return groupRepository.save(group);
@@ -65,7 +64,7 @@ public class GroupService {
 
     public GroupEntity updateTeacher(UUID groupId, String teacherUsername){
         GroupEntity group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new GroupNotFoundException("Group Not Found"));
+                .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
 
         UserEntity teacher = userRepository.findUserEntityByUsername(teacherUsername)
                 .orElseThrow(() -> new DataNotFoundException("Teacher Not Found"));
