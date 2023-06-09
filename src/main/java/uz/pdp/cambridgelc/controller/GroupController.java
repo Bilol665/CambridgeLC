@@ -14,7 +14,6 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/group")
-//@EnableMethodSecurity()
 public class GroupController {
     private final GroupService groupService;
 
@@ -50,7 +49,7 @@ public class GroupController {
     }
 
     @PostMapping("/update/name")
-//    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','TEACHER')")
+    @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','TEACHER')")
     public ResponseEntity<GroupEntity> updateName(
             @RequestParam UUID groupId,
             @RequestParam String name
