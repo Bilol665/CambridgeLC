@@ -1,6 +1,7 @@
 package uz.pdp.cambridgelc.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.dto.CourseDto;
@@ -34,7 +35,8 @@ public class CourseController {
     ){
         return courseService.getAll(page, size);
     }
-    @PostMapping("/support/edit-course/{id}")
+    @PutMapping("/support/edit-course/{id}")
+    @PreAuthorize(value = "hasRole('TEACHER')")
     public CourseEntity editCourse(
             @PathVariable UUID id,
             @RequestBody CourseDto courseDto
@@ -42,7 +44,7 @@ public class CourseController {
         return courseService.updateSupport(courseDto,id);
     }
     @PutMapping("/teacher/edit-title/{courseId}")
-//    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasRole('TEACHER')")
     public CourseEntity editTitle(
             @PathVariable UUID courseId,
             @RequestParam String title

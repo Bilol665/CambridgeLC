@@ -73,13 +73,6 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-//    public GroupEntity updateGroupName(UUID groupId, List<UserEntity> failedStudents){
-//        GroupEntity group = groupRepository.findById(groupId)
-//                .orElseThrow(() -> new GroupNotFoundException("Group Not Found"));
-//
-//        group.setFailedStudents(failedStudents);
-//        return  groupRepository.save(group);
-//    }
 
     public List<GroupEntity> getAllGroups(int page,int size){
         Sort sort = Sort.by(Sort.Direction.DESC,"createdDate");

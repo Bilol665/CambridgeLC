@@ -32,7 +32,8 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/v1/auth/login").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/group/get/allGroups").permitAll()
                         .requestMatchers(adminOnly).hasRole("ADMIN")
                         .requestMatchers("/api/v1/auth/addAdmin").hasRole("SUPPER_ADMIN")
                         .anyRequest().authenticated())

@@ -10,6 +10,7 @@ import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.course.CourseLevel;
 import uz.pdp.cambridgelc.entity.dto.CourseDto;
 import uz.pdp.cambridgelc.exceptions.CourseNotFoundException;
+import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 
 import java.util.List;
@@ -38,10 +39,11 @@ public class CourseService {
         return courseRepository.findAll(pageable).getContent();
     }
     public CourseEntity updateSupport(CourseDto courseDto, UUID id){
-        CourseEntity map = modelMapper.map(courseDto, CourseEntity.class);
-        map.setId(id);
-        courseRepository.save(map);
-        return map;
+        CourseEntity course = courseRepository.findById(id).orElseThrow(
+                () -> new DataNotFoundException("Course not found!")
+        );
+        modelMapper.map(courseDto,course);
+        return courseRepository.save(course);
     }
     public CourseEntity updateTeacher(String title,UUID id){
         CourseEntity course=courseRepository.findById(id).orElseThrow(

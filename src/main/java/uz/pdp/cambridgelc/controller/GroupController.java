@@ -24,22 +24,6 @@ public class GroupController {
             return ResponseEntity.ok(groupService.save(groupCreateDto));
     }
 
-//    @PostMapping("/add/student")
-//    public ResponseEntity<GroupEntity> addStudent(
-//            @RequestParam UUID groupId,
-//            @RequestBody UserEntity student
-//    ){
-//        return ResponseEntity.ok(groupService.addStudent(groupId,student));
-//    }
-
-    @GetMapping("/get/allGroups")
-    public ResponseEntity<List<GroupEntity>> getAllGroups(
-            @RequestParam int page,
-            @RequestParam int size
-    ){
-            return ResponseEntity.ok(groupService.getAllGroups(page,size));
-    }
-
     @GetMapping("/get/group")
     @PreAuthorize(value = "hasAnyRole('ADMIN','TEACHER','SUPPORT')")
     public ResponseEntity<GroupEntity> getGroup(
@@ -58,20 +42,27 @@ public class GroupController {
     }
 
     @PostMapping("/update/teacher")
-//    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> updateTeacher(
             @RequestParam UUID groupId,
-            @RequestBody String newTeacher
+            @RequestParam String newTeacher
     ){
             return ResponseEntity.ok(groupService.updateTeacher(groupId,newTeacher));
     }
+    @PostMapping("/add/student")
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public ResponseEntity<GroupEntity> addStudent(
+            @RequestParam UUID courseId,
+            @RequestParam String studentUsername
+    ){
+        return ResponseEntity.ok(groupService.addStudent(courseId,studentUsername));
+    }
 
-//    @PostMapping("/updateGroupName/setFailedStudents")
-//    @PreAuthorize(value = "hasRole('TEACHER')")
-//    public ResponseEntity<GroupEntity> setFailedStudents(
-//            @RequestParam UUID groupId,
-//            @RequestBody List<UserEntity> failedStudents
-//    ){
-//        return ResponseEntity.ok(groupService.updateGroupName(groupId,failedStudents));
-//    }
+    @GetMapping("/get/allGroups")
+    public ResponseEntity<List<GroupEntity>> getAllGroups(
+            @RequestParam int page,
+            @RequestParam int size
+    ){
+        return ResponseEntity.ok(groupService.getAllGroups(page,size));
+    }
 }
