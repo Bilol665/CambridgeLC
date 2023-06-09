@@ -31,9 +31,9 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/api/v1/course/teacher/**").permitAll()
+//                        .requestMatchers("/api/v1/group/get/**").hasRole("TEACHER")
 //                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .anyRequest().permitAll())
+                        .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFilterToken(authenticationService,jwtService),
                         UsernamePasswordAuthenticationFilter.class)

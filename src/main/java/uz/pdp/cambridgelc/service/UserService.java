@@ -28,8 +28,8 @@ public class UserService {
         UserEntity userEntity = modelMapper.map(userDto,UserEntity.class);
         userEntity.setRoles(role);
         userEntity.setStatus(UserStatus.PAID);
-        userEntity.setIsFailed(false);
-        userEntity.setCoins(0);
+        userEntity.setIsOut(false);
+        userEntity.setCredits(0);
         userEntity.setSolvedTasks(0);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         return userRepository.save(userEntity);

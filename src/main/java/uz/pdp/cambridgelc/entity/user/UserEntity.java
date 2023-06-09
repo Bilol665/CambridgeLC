@@ -28,9 +28,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @NotBlank(message = "Phone number cannot be empty")
     @Column(unique = true)
     private String username;
-    private Integer coins;
+    private Integer credits;
     private Integer solvedTasks;
-    private Boolean isFailed;
+    private Boolean isOut;
     @Enumerated(EnumType.STRING)
     private List<UserRole> roles;
     @Enumerated(EnumType.STRING)
