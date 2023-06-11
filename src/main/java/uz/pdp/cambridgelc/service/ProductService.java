@@ -81,4 +81,12 @@ public class ProductService {
         }
         userRepository.save(userEntity);
     }
+
+    public ProductHistoryEntity history(UUID userId) {
+        return historyRepository.findProductHistoryEntityByOwner(userRepository.findById(userId).orElseThrow(
+                () -> new DataNotFoundException("User not found!")
+        )).orElseThrow(
+                () -> new DataNotFoundException("You didn't bought anything yet!")
+        );
+    }
 }

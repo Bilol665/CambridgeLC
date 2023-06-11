@@ -40,20 +40,27 @@ public class ShopController {
     }
     @PutMapping("/product/update-title/{id}")
     @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','SUPER_ADMIN')")
-    public ResponseEntity<Object> updateTitle(
+    public ResponseEntity<HttpStatus> updateTitle(
             @RequestParam String title,
             @PathVariable UUID id
     ) {
         productService.editTitle(title,id);
-        return ResponseEntity.ok("");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/product/buy/{productId}")
     @PreAuthorize(value = "hasRole('STUDENT')")
-    public ResponseEntity<Object> buy(
+    public ResponseEntity<HttpStatus> buy(
             Principal principal,
             @PathVariable UUID productId
     ) {
         productService.buy(productId,principal);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/history/{userId}")
+    @PreAuthorize(value = "hasRole('STUDENT')")
+    public ResponseEntity<Object> history(
+            @PathVariable UUID userId
+    ){
+        return ResponseEntity.ok(productService.history(userId));
     }
 }
