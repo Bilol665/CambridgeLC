@@ -78,4 +78,7 @@ public class GroupService {
         Pageable pageable = PageRequest.of(page,size,sort);
         return groupRepository.findAll(pageable).getContent();
     }
+    public List<GroupEntity> getGroupsByTeacher(String teacherUsername) {
+        return groupRepository.findByTeacher(teacherUsername);
+    }
 }

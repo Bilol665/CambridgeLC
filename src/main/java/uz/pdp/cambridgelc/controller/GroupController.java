@@ -66,4 +66,11 @@ public class GroupController {
     ){
         return ResponseEntity.ok(groupService.getAllGroups(page,size));
     }
+    @GetMapping("/get/allGroupsByTeacher")
+    @PreAuthorize(value = "permitAll()")
+    public ResponseEntity<List<GroupEntity>> getAllByTeacher(
+            @RequestParam String username
+    ){
+        return ResponseEntity.ok(groupService.getGroupsByTeacher(username));
+    }
 }
