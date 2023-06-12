@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.course.CourseLevel;
@@ -35,7 +36,7 @@ public class CourseService {
         courseRepository.removeCourseEntityByTitle(title);
     }
     public List<CourseEntity> getAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size,Sort.by("createdDate").descending());
         return courseRepository.findAll(pageable).getContent();
     }
     public CourseEntity updateSupport(CourseDto courseDto, UUID id){
@@ -52,6 +53,5 @@ public class CourseService {
         course.setTitle(title);
         return courseRepository.save(course);
     }
-    //public boolean isFailed(UUID userId, TaskEntity taskEntity){}
 
 }
