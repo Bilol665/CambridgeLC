@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.dto.CourseDto;
-import uz.pdp.cambridgelc.service.CourseService;
+import uz.pdp.cambridgelc.service.course.CourseService;
 
 import java.util.List;
 import java.util.UUID;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.cambridgelc.entity.dto.ExamDto;
 import uz.pdp.cambridgelc.entity.exam.ExamEntity;
-import uz.pdp.cambridgelc.service.ExamService;
+import uz.pdp.cambridgelc.service.exam.ExamService;
 
 @RestController
 @RequiredArgsConstructor

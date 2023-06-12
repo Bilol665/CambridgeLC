@@ -1,4 +1,4 @@
-package uz.pdp.cambridgelc.service;
+package uz.pdp.cambridgelc.service.authUser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.jsonwebtoken.Claims;
