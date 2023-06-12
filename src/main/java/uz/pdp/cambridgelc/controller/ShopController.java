@@ -6,7 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.ProductDto;
-import uz.pdp.cambridgelc.service.ProductService;
+import uz.pdp.cambridgelc.service.history.HistoryService;
+import uz.pdp.cambridgelc.service.product.ProductService;
 
 import java.security.Principal;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/shop")
 public class ShopController {
     private final ProductService productService;
+    private final HistoryService historyService;
 
     @PostMapping("/product/add-product")
     @PreAuthorize(value = "hasRole('ADMIN')")
@@ -53,7 +55,7 @@ public class ShopController {
             Principal principal,
             @PathVariable UUID productId
     ) {
-        productService.buy(productId,principal);
+        historyService.buy(productId,principal);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/history/{userId}")

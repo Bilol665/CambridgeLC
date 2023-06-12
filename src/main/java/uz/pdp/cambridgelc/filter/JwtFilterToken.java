@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uz.pdp.cambridgelc.service.AuthenticationService;
-import uz.pdp.cambridgelc.service.JwtService;
+import uz.pdp.cambridgelc.service.authUser.AuthenticationService;
+import uz.pdp.cambridgelc.service.authUser.JwtService;
 
 import java.io.IOException;
 

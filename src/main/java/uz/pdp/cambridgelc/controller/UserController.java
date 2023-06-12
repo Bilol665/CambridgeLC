@@ -10,7 +10,7 @@ import uz.pdp.cambridgelc.entity.dto.UserCreateDto;
 import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
 import uz.pdp.cambridgelc.entity.user.UserRole;
-import uz.pdp.cambridgelc.service.UserService;
+import uz.pdp.cambridgelc.service.authUser.UserService;
 
 import java.util.List;
 import java.util.UUID;

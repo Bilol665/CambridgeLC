@@ -1,4 +1,4 @@
-package uz.pdp.cambridgelc.service;
+package uz.pdp.cambridgelc.service.authUser;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
