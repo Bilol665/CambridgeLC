@@ -22,4 +22,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> notEnoughCredits(NotEnoughCreditsException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(value = {RequestValidationException.class})
+    private ResponseEntity<String>RequestValidationException(RequestValidationException e){
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
 }

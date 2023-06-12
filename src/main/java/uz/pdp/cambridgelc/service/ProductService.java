@@ -1,5 +1,6 @@
 package uz.pdp.cambridgelc.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ProductService {
     private final ProductRepository productRepository;
     private final HistoryRepository historyRepository;
