@@ -7,6 +7,7 @@ import java.util.List;
 public class RequestValidationException extends RuntimeException{
     private final String message;
 
+
     public RequestValidationException(List<ObjectError> errorList){
             StringBuilder sb=new StringBuilder();
 
