@@ -18,7 +18,6 @@ import java.util.UUID;
 public class GroupController {
     private final GroupService groupService;
 
-
     @DeleteMapping("/delete/group")
     @PreAuthorize(value = "hasAnyRole('ADMIN')")
     public ResponseEntity<Object> deleteGroup(

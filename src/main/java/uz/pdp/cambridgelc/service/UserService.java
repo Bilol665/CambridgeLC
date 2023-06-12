@@ -35,6 +35,7 @@ public class UserService {
             case ROLE_ADMIN -> {
                 GroupEntity group = groupRepository.findGroupEntityByName("ADMINS")
                         .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+
                 userEntity.setGroup(group);
             }
             case ROLE_TEACHER -> {
