@@ -1,5 +1,6 @@
 package uz.pdp.cambridgelc.service.group;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
@@ -82,5 +83,10 @@ public class GroupService {
         return groupRepository.findByTeacher(userRepository.findUserEntityByUsername(teacherUsername).orElseThrow(
                 () -> new DataNotFoundException("Teacher not found!")
         ));
+    }
+    @Transactional
+    public void deleteGroupByName(String name){
+        groupRepository.deleteGroupEntityByName(name)
+                .orElseThrow(()-> new DataNotFoundException("Group not found"));
     }
 }
