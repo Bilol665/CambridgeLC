@@ -1,15 +1,16 @@
 package uz.pdp.cambridgelc.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.GroupCreateDto;
 import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.service.group.GroupService;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -19,69 +20,68 @@ public class GroupController {
     private final GroupService groupService;
 
 
-    @DeleteMapping("/delete/group")
+    @DeleteMapping("/delete")
     @PreAuthorize(value = "hasAnyRole('ADMIN')")
     public ResponseEntity<Object> deleteGroup(
-            @RequestParam String name
+            @Valid @RequestParam String name,
+            BindingResult bindingResult
     ){
-      groupService.deleteGroupByName(name);
+      groupService.deleteGroupByName(bindingResult,name);
       return ResponseEntity.status(204).build();
     }
 
-    @PostMapping("/add/group")
+    @PostMapping("/add")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> addGroup(
-            @RequestBody GroupCreateDto groupCreateDto
+            @RequestBody @Valid GroupCreateDto groupCreateDto,
+            BindingResult bindingResult
     ){
-            return ResponseEntity.ok(groupService.save(groupCreateDto));
+            return ResponseEntity.ok(groupService.save(bindingResult,groupCreateDto));
     }
 
-    @GetMapping("/get/group")
+    @GetMapping("/get")
     @PreAuthorize(value = "hasAnyRole('ADMIN','TEACHER','SUPPORT')")
     public ResponseEntity<GroupEntity> getGroup(
-            @RequestParam UUID groupId
+            @RequestParam @Valid UUID groupId,
+            BindingResult bindingResult
     ){
-            return ResponseEntity.ok(groupService.getGroup(groupId));
+            return ResponseEntity.ok(groupService.getGroup(bindingResult,groupId));
     }
 
-    @PostMapping("/update/name")
+    @PostMapping("/updateName")
     @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','TEACHER')")
     public ResponseEntity<GroupEntity> updateName(
-            @RequestParam UUID groupId,
-            @RequestParam String name
+            @RequestParam @Valid UUID groupId,
+            @RequestParam @Valid String name,
+            BindingResult bindingResult
     ){
-            return ResponseEntity.ok(groupService.updateGroupName(groupId,name));
+            return ResponseEntity.ok(groupService.updateGroupName(bindingResult,groupId,name));
     }
 
-    @PostMapping("/update/teacher")
+    @PostMapping("/updateTeacher")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> updateTeacher(
-            @RequestParam UUID groupId,
-            @RequestParam String newTeacher
+            @RequestParam @Valid UUID groupId,
+            @RequestParam @Valid String newTeacher,
+            BindingResult bindingResult
     ){
-            return ResponseEntity.ok(groupService.updateTeacher(groupId,newTeacher));
-    }
-    @PostMapping("/add/student")
-    @PreAuthorize(value = "hasRole('ADMIN')")
-    public ResponseEntity<GroupEntity> addStudent(
-            @RequestParam UUID courseId,
-            @RequestParam String studentUsername
-    ){
-        return ResponseEntity.ok(groupService.addStudent(courseId,studentUsername));
+            return ResponseEntity.ok(groupService.updateTeacher(bindingResult,groupId,newTeacher));
     }
 
-    @GetMapping("/get/allGroups")
+    @GetMapping("/getAllGroups")
     public ResponseEntity<List<GroupEntity>> getAllGroups(
-            @RequestParam int page,
-            @RequestParam int size
+            @RequestParam @Valid int page,
+            @RequestParam @Valid int size,
+            BindingResult bindingResult
     ){
-        return ResponseEntity.ok(groupService.getAllGroups(page,size));
+        return ResponseEntity.ok(groupService.getAllGroups(bindingResult,page,size));
     }
-    @GetMapping("/get/allGroupsByTeacher")
+    @GetMapping("/getAllGroupsByTeacher")
     @PreAuthorize(value = "permitAll()")
     public ResponseEntity<List<GroupEntity>> getAllByTeacher(
-            @RequestParam String username
+            @RequestParam @Valid String username,
+            BindingResult bindingResult
     ){
-        return ResponseEntity.ok(groupService.getGroupsByTeacher(username));
+        return ResponseEntity.ok(groupService.getGroupsByTeacher(bindingResult,username));
     }
 }
