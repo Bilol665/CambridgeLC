@@ -9,6 +9,7 @@ import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.service.group.GroupService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -16,6 +17,16 @@ import java.util.UUID;
 @RequestMapping("/api/v1/group")
 public class GroupController {
     private final GroupService groupService;
+
+
+    @DeleteMapping("/delete/group")
+    @PreAuthorize(value = "hasAnyRole('ADMIN')")
+    public ResponseEntity<Object> deleteGroup(
+            @RequestParam String name
+    ){
+      groupService.deleteGroupByName(name);
+      return ResponseEntity.status(204).build();
+    }
 
     @PostMapping("/add/group")
     @PreAuthorize(value = "hasRole('ADMIN')")

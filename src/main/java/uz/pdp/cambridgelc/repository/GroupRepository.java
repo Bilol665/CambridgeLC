@@ -13,4 +13,5 @@ import java.util.UUID;
 public interface GroupRepository extends JpaRepository<GroupEntity, UUID> {
         Optional<GroupEntity> findGroupEntityByName (String name);
         List<GroupEntity> findByTeacher(UserEntity teacher);
+        Optional<GroupEntity> deleteGroupEntityByName(String name);
 }

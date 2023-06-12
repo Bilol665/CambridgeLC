@@ -57,8 +57,6 @@ public class UserService {
         userEntity.setCredits(0);
         userEntity.setSolvedTasks(0);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-
-
         return userRepository.save(userEntity);
     }
 
@@ -69,6 +67,6 @@ public class UserService {
             String accessToken=jwtService.generateAccessToken(userEntity);
             return JwtResponse.builder().accessToken(accessToken).build();
         }
-        throw new FailedAuthorizeException("User status unpaid please try again by making the status paid !");
+        throw new FailedAuthorizeException("User status unpaid or password is incorrect !");
     }
 }
