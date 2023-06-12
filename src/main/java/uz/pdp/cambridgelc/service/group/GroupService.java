@@ -7,11 +7,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.dto.GroupCreateDto;
 import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
 import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
+import uz.pdp.cambridgelc.exceptions.RequestValidationException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 import uz.pdp.cambridgelc.repository.GroupRepository;
 import uz.pdp.cambridgelc.repository.UserRepository;
@@ -27,7 +30,11 @@ public class GroupService {
     private final CourseRepository courseRepository;
     private final ModelMapper modelMapper;
 
-    public GroupEntity save(GroupCreateDto groupCreateDto){
+    public GroupEntity save(BindingResult bindingResult,GroupCreateDto groupCreateDto){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
         UserEntity teacher = userRepository.findUserEntityByUsername(groupCreateDto.getTeacherUsername())
                 .orElseThrow(() -> new DataNotFoundException("Teacher Not found"));
         CourseEntity course = courseRepository.findByTitle(groupCreateDto.getCourseTitle())
@@ -39,23 +46,20 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-    public GroupEntity addStudent(UUID groupId,String studentUsername){
-        GroupEntity groupEntity = groupRepository.findById(groupId).orElseThrow(
-                () -> new DataNotFoundException("Group not found!")
-        );
-        UserEntity userEntity = userRepository.findUserEntityByUsername(studentUsername)
-                .orElseThrow(() -> new DataNotFoundException("Student Not Found"));
-
-        userEntity.setGroup(groupEntity);
-        return userRepository.save(userEntity).getGroup();
-    }
-
-    public GroupEntity getGroup(UUID groupId){
+    public GroupEntity getGroup(BindingResult bindingResult,UUID groupId){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
     }
 
-    public GroupEntity updateGroupName(UUID groupId, String name){
+    public GroupEntity updateGroupName(BindingResult bindingResult,UUID groupId, String name){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw  new RequestValidationException(errors);
+        }
         GroupEntity group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
 
@@ -63,7 +67,11 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-    public GroupEntity updateTeacher(UUID groupId, String teacherUsername){
+    public GroupEntity updateTeacher(BindingResult bindingResult,UUID groupId, String teacherUsername){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw  new RequestValidationException(errors);
+        }
         GroupEntity group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
 
@@ -74,18 +82,30 @@ public class GroupService {
     }
 
 
-    public List<GroupEntity> getAllGroups(int page,int size){
+    public List<GroupEntity> getAllGroups(BindingResult bindingResult,int page,int size){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw  new RequestValidationException(errors);
+        }
         Sort sort = Sort.by(Sort.Direction.DESC,"createdDate");
         Pageable pageable = PageRequest.of(page,size,sort);
         return groupRepository.findAll(pageable).getContent();
     }
-    public List<GroupEntity> getGroupsByTeacher(String teacherUsername) {
+    public List<GroupEntity> getGroupsByTeacher(BindingResult bindingResult,String teacherUsername) {
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw  new RequestValidationException(errors);
+        }
         return groupRepository.findByTeacher(userRepository.findUserEntityByUsername(teacherUsername).orElseThrow(
                 () -> new DataNotFoundException("Teacher not found!")
         ));
     }
     @Transactional
-    public void deleteGroupByName(String name){
+    public void deleteGroupByName(BindingResult bindingResult,String name){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
         groupRepository.deleteGroupEntityByName(name)
                 .orElseThrow(()-> new DataNotFoundException("Group not found"));
     }

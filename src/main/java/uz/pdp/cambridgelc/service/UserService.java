@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import uz.pdp.cambridgelc.entity.dto.LoginDto;
 import uz.pdp.cambridgelc.entity.dto.UserCreateDto;
 import uz.pdp.cambridgelc.entity.dto.response.JwtResponse;
@@ -13,11 +15,12 @@ import uz.pdp.cambridgelc.entity.user.UserRole;
 import uz.pdp.cambridgelc.entity.user.UserStatus;
 import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
 import uz.pdp.cambridgelc.exceptions.FailedAuthorizeException;
+import uz.pdp.cambridgelc.exceptions.RequestValidationException;
 import uz.pdp.cambridgelc.repository.GroupRepository;
 import uz.pdp.cambridgelc.repository.UserRepository;
 
-import java.rmi.server.UID;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -69,5 +72,20 @@ public class UserService {
             return JwtResponse.builder().accessToken(accessToken).build();
         }
         throw new FailedAuthorizeException("User status unpaid or password is incorrect !");
+    }
+
+    public GroupEntity addStudent(BindingResult bindingResult, UUID groupId, String studentUsername){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw  new RequestValidationException(errors);
+        }
+        GroupEntity groupEntity = groupRepository.findById(groupId).orElseThrow(
+                () -> new DataNotFoundException("Group not found!")
+        );
+        UserEntity userEntity = userRepository.findUserEntityByUsername(studentUsername)
+                .orElseThrow(() -> new DataNotFoundException("Student Not Found"));
+
+        userEntity.setGroup(groupEntity);
+        return userRepository.save(userEntity).getGroup();
     }
 }

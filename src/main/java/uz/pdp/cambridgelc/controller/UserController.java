@@ -1,17 +1,20 @@
 package uz.pdp.cambridgelc.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.UserCreateDto;
+import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
 import uz.pdp.cambridgelc.entity.user.UserRole;
 import uz.pdp.cambridgelc.service.UserService;
 
 import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
@@ -52,5 +55,15 @@ public class UserController {
             @RequestBody UserCreateDto dto
     ){
         return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_SUPPORT)));
+    }
+
+    @PostMapping("/addStudent")
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public ResponseEntity<GroupEntity> addStudent(
+            @RequestParam @Valid UUID courseId,
+            @RequestParam @Valid String studentUsername,
+            BindingResult bindingResult
+    ){
+        return ResponseEntity.ok(userService.addStudent(bindingResult,courseId,studentUsername));
     }
 }
