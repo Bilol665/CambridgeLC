@@ -1,4 +1,4 @@
-package uz.pdp.cambridgelc.service;
+package uz.pdp.cambridgelc.service.auth_user;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,7 +16,6 @@ import uz.pdp.cambridgelc.exceptions.FailedAuthorizeException;
 import uz.pdp.cambridgelc.repository.GroupRepository;
 import uz.pdp.cambridgelc.repository.UserRepository;
 
-import java.rmi.server.UID;
 import java.util.List;
 
 @Service

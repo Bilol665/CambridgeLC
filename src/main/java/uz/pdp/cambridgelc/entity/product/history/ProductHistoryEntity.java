@@ -1,9 +1,6 @@
-package uz.pdp.cambridgelc.entity.product;
+package uz.pdp.cambridgelc.entity.product.history;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import uz.pdp.cambridgelc.entity.BaseEntity;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
@@ -17,9 +14,9 @@ import java.util.List;
 @Setter
 @Builder
 public class ProductHistoryEntity extends BaseEntity {
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<ProductEntity> products;
-    private Integer total;
     @ManyToOne
     private UserEntity owner;
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    private List<History> miniHistory;
+    private Integer total;
 }

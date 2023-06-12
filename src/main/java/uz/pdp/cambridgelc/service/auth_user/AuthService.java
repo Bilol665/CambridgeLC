@@ -1,4 +1,4 @@
-package uz.pdp.cambridgelc.service;
+package uz.pdp.cambridgelc.service.auth_user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import uz.pdp.cambridgelc.filter.JwtFilterToken;
-import uz.pdp.cambridgelc.service.AuthService;
-import uz.pdp.cambridgelc.service.AuthenticationService;
-import uz.pdp.cambridgelc.service.JwtService;
+import uz.pdp.cambridgelc.service.auth_user.AuthService;
+import uz.pdp.cambridgelc.service.auth_user.AuthenticationService;
+import uz.pdp.cambridgelc.service.auth_user.JwtService;
 
 @Configuration
 @EnableWebSecurity

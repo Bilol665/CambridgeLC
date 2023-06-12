@@ -6,10 +6,11 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uz.pdp.cambridgelc.service.AuthenticationService;
-import uz.pdp.cambridgelc.service.JwtService;
+import uz.pdp.cambridgelc.service.auth_user.AuthenticationService;
+import uz.pdp.cambridgelc.service.auth_user.JwtService;
 
 import java.io.IOException;
 
@@ -20,9 +21,10 @@ public class JwtFilterToken extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+            @NotNull HttpServletRequest request,
+            @NotNull HttpServletResponse response,
+            @NotNull FilterChain filterChain
+    ) throws ServletException, IOException {
         String token = request.getHeader("authorization");
         if (token == null || !token.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);

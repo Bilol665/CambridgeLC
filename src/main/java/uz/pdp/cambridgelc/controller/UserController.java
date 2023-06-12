@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.cambridgelc.entity.dto.UserCreateDto;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
 import uz.pdp.cambridgelc.entity.user.UserRole;
-import uz.pdp.cambridgelc.service.UserService;
+import uz.pdp.cambridgelc.service.auth_user.UserService;
 
 import java.util.List;
 @RestController

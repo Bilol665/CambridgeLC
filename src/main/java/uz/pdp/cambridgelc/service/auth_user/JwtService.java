@@ -1,4 +1,4 @@
-package uz.pdp.cambridgelc.service;
+package uz.pdp.cambridgelc.service.auth_user;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
