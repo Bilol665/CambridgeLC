@@ -69,6 +69,6 @@ public class UserService {
             String accessToken=jwtService.generateAccessToken(userEntity);
             return JwtResponse.builder().accessToken(accessToken).build();
         }
-        throw new FailedAuthorizeException("User status unpaid please try again by making the status paid !");
+        throw new FailedAuthorizeException("User status unpaid or password is incorrect !");
     }
 }
