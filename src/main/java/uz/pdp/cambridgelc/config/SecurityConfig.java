@@ -26,7 +26,7 @@ public class SecurityConfig {
     private final AuthService authService;
     private final AuthenticationService authenticationService;
     private final PasswordEncoder passwordEncoder;
-    String[] adminOnly = new String[]{"/api/v1/admin/addStudent","/api/v1/admin/addTeacher","/api/v1/admin/addSupport"};
+    String[] adminOnly = new String[]{"/api/v1/user/addStudent","/api/v1/user/addTeacher","/api/v1/user/addSupport"};
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http

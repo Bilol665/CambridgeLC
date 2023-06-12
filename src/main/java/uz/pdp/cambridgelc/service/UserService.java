@@ -16,6 +16,7 @@ import uz.pdp.cambridgelc.exceptions.FailedAuthorizeException;
 import uz.pdp.cambridgelc.repository.GroupRepository;
 import uz.pdp.cambridgelc.repository.UserRepository;
 
+import java.rmi.server.UID;
 import java.util.List;
 
 @Service
@@ -26,8 +27,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
-
     public UserEntity saveUser(UserCreateDto userDto, List<UserRole> role){
+
         UserEntity userEntity = modelMapper.map(userDto,UserEntity.class);
         switch (role.get(0)){
             case ROLE_ADMIN -> {
