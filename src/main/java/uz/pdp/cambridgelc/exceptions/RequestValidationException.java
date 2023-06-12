@@ -5,7 +5,7 @@ import org.springframework.validation.ObjectError;
 import java.util.List;
 
 public class RequestValidationException extends RuntimeException{
-    private String message;
+    private final String message;
 
     public RequestValidationException(List<ObjectError> errorList){
             StringBuilder sb=new StringBuilder();
