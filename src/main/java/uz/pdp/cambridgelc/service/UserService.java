@@ -18,6 +18,7 @@ import uz.pdp.cambridgelc.repository.UserRepository;
 
 import java.rmi.server.UID;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -69,5 +70,13 @@ public class UserService {
             return JwtResponse.builder().accessToken(accessToken).build();
         }
         throw new FailedAuthorizeException("User status unpaid or password is incorrect !");
+    }
+
+    public void updateCreditsById(Integer credits, UUID id){
+        UserEntity user = userRepository.getUserEntityById(id)
+                .orElseThrow( ()->new DataNotFoundException("User not found please try again!"));
+
+        user.setCredits(credits);
+        userRepository.save(user);
     }
 }

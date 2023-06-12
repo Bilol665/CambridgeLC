@@ -1,17 +1,17 @@
 package uz.pdp.cambridgelc.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.UserCreateDto;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
 import uz.pdp.cambridgelc.entity.user.UserRole;
 import uz.pdp.cambridgelc.service.UserService;
 
 import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
@@ -53,4 +53,15 @@ public class UserController {
     ){
         return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_SUPPORT)));
     }
+
+
+    @PutMapping("/updateCredits/{id}")
+    private ResponseEntity<String>updateUserCreditsById(
+            @RequestParam Integer credits,
+            @PathVariable UUID id
+    ){
+        userService.updateCreditsById(credits,id);
+        return ResponseEntity.status(200).body("Successfully updated credits");
+    }
+
 }

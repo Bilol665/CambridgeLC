@@ -25,7 +25,7 @@ public class GroupController {
             @RequestParam String name
     ){
       groupService.deleteGroupByName(name);
-      return ResponseEntity.status(204).build();
+      return ResponseEntity.status(200).body("Group successfully deleted");
     }
 
     @PostMapping("/add/group")
