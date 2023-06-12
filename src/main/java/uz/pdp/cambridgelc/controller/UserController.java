@@ -14,8 +14,8 @@ import uz.pdp.cambridgelc.service.UserService;
 import java.util.List;
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/admin")
-public class AdminController {
+@RequestMapping("/api/v1/user")
+public class UserController {
     private final UserService userService;
     @PostMapping("/addStudent")
     private ResponseEntity<UserEntity> addStudent(
