@@ -39,7 +39,7 @@ public class CourseController {
             @RequestParam int page,
             @RequestParam int size
     ){
-        return ResponseEntity.ok(courseService.getAll(page, size));
+        return ResponseEntity.ok(courseService.getToExcel(page, size));
     }
     @PutMapping("/support/edit-course/{id}")
     @PreAuthorize(value = "hasRole('TEACHER')")
