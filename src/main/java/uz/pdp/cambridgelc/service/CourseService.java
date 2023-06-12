@@ -53,5 +53,13 @@ public class CourseService {
         course.setTitle(title);
         return courseRepository.save(course);
     }
-
+    public List<CourseEntity> getCoursesByLevel(String level) {
+        CourseLevel courseLevel;
+        try {
+            courseLevel = CourseLevel.valueOf(level);
+        } catch (IllegalArgumentException e) {
+            throw new DataNotFoundException("Course not found!");
+        }
+        return courseRepository.findByLevel(String.valueOf(courseLevel));
+    }
 }

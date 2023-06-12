@@ -57,5 +57,11 @@ public class CourseController {
     ){
         return ResponseEntity.ok(courseService.updateTeacher(title,courseId));
     }
-
+   @GetMapping("/getCoursesByLevel")
+    @PreAuthorize(value = "permitAll()")
+    public ResponseEntity<List<CourseEntity>> getCoursesByLevel(
+            @RequestParam String level
+   ){
+        return ResponseEntity.ok(courseService.getCoursesByLevel(level));
+   }
 }
