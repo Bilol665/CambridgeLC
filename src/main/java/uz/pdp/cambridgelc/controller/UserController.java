@@ -57,7 +57,7 @@ public class UserController {
         return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_SUPPORT)));
     }
 
-    @PostMapping("/addStudent")
+    @PostMapping("/add/groupStudent")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> addStudent(
             @RequestParam @Valid UUID courseId,

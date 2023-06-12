@@ -33,7 +33,7 @@ public class GroupController {
     @PostMapping("/add")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> addGroup(
-            @RequestBody @Valid GroupCreateDto groupCreateDto,
+            @Valid @RequestBody GroupCreateDto groupCreateDto,
             BindingResult bindingResult
     ){
             return ResponseEntity.ok(groupService.save(bindingResult,groupCreateDto));
@@ -42,7 +42,7 @@ public class GroupController {
     @GetMapping("/get")
     @PreAuthorize(value = "hasAnyRole('ADMIN','TEACHER','SUPPORT')")
     public ResponseEntity<GroupEntity> getGroup(
-            @RequestParam @Valid UUID groupId,
+            @Valid @RequestParam UUID groupId,
             BindingResult bindingResult
     ){
             return ResponseEntity.ok(groupService.getGroup(bindingResult,groupId));
@@ -51,8 +51,8 @@ public class GroupController {
     @PostMapping("/updateName")
     @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','TEACHER')")
     public ResponseEntity<GroupEntity> updateName(
-            @RequestParam @Valid UUID groupId,
-            @RequestParam @Valid String name,
+            @Valid @RequestParam UUID groupId,
+            @Valid @RequestParam String name,
             BindingResult bindingResult
     ){
             return ResponseEntity.ok(groupService.updateGroupName(bindingResult,groupId,name));
@@ -61,8 +61,8 @@ public class GroupController {
     @PostMapping("/updateTeacher")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> updateTeacher(
-            @RequestParam @Valid UUID groupId,
-            @RequestParam @Valid String newTeacher,
+            @Valid @RequestParam UUID groupId,
+            @Valid @RequestParam String newTeacher,
             BindingResult bindingResult
     ){
             return ResponseEntity.ok(groupService.updateTeacher(bindingResult,groupId,newTeacher));
@@ -70,8 +70,8 @@ public class GroupController {
 
     @GetMapping("/getAllGroups")
     public ResponseEntity<List<GroupEntity>> getAllGroups(
-            @RequestParam @Valid int page,
-            @RequestParam @Valid int size,
+            @Valid @RequestParam int page,
+            @Valid @RequestParam int size,
             BindingResult bindingResult
     ){
         return ResponseEntity.ok(groupService.getAllGroups(bindingResult,page,size));
@@ -79,7 +79,7 @@ public class GroupController {
     @GetMapping("/getAllGroupsByTeacher")
     @PreAuthorize(value = "permitAll()")
     public ResponseEntity<List<GroupEntity>> getAllByTeacher(
-            @RequestParam @Valid String username,
+            @Valid @RequestParam  String username,
             BindingResult bindingResult
     ){
         return ResponseEntity.ok(groupService.getGroupsByTeacher(bindingResult,username));
