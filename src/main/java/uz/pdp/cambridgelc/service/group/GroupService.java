@@ -101,11 +101,7 @@ public class GroupService {
         ));
     }
     @Transactional
-    public void deleteGroupByName(BindingResult bindingResult,String name){
-        if (bindingResult.hasErrors()){
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw new RequestValidationException(errors);
-        }
+    public void deleteGroupByName(String name){
         groupRepository.deleteGroupEntityByName(name)
                 .orElseThrow(()-> new DataNotFoundException("Group not found"));
     }

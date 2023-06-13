@@ -35,7 +35,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private List<UserRole> roles;
     @Enumerated(EnumType.STRING)
     private UserStatus status;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private GroupEntity group;
 
     @Override
