@@ -88,4 +88,11 @@ public class UserService {
         userEntity.setGroup(groupEntity);
         return userRepository.save(userEntity).getGroup();
     }
+
+    public void updateCreditsById(UUID userId,Integer credits){
+        UserEntity userEntity = userRepository
+                .getUserEntityById(userId).orElseThrow(()->new DataNotFoundException("User not found"));
+        userEntity.setCredits(credits);
+        userRepository.save(userEntity);
+    }
 }

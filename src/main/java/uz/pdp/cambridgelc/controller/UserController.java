@@ -64,4 +64,13 @@ public class UserController {
     ){
         return ResponseEntity.ok(userService.addStudent(bindingResult,courseId,studentUsername));
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String>updateCreditsById(
+            @PathVariable UUID id,
+            @RequestParam Integer credits
+    ){
+        userService.updateCreditsById(id,credits);
+        return ResponseEntity.status(200).body("Successfully updated");
+    }
 }
