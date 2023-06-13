@@ -21,7 +21,7 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping("/add")
-  @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<CourseEntity> addCourse(
             @Valid @RequestBody CourseDto courseDto,
             BindingResult bindingResult
@@ -47,7 +47,7 @@ public class CourseController {
             @Valid @RequestParam int size,
             BindingResult bindingResult
     ) {
-        return ResponseEntity.ok(courseService.getToExcel(page, size,bindingResult));
+        return ResponseEntity.ok(courseService.getToExcel(page, size, bindingResult));
     }
 
     @PutMapping("/edit/{id}")
@@ -57,25 +57,25 @@ public class CourseController {
             @Valid @RequestBody CourseDto courseDto,
             BindingResult bindingResult
     ) {
-        return ResponseEntity.ok(courseService.updateSupport(courseDto, id,bindingResult));
+        return ResponseEntity.ok(courseService.updateSupport(courseDto, id, bindingResult));
     }
 
     @PutMapping("/edit-title/{courseId}")
     @PreAuthorize(value = "hasRole('TEACHER')")
     public ResponseEntity<CourseEntity> editTitle(
-           @Valid @PathVariable UUID courseId,
+            @Valid @PathVariable UUID courseId,
             @Valid @RequestParam String title,
-           BindingResult bindingResult
+            BindingResult bindingResult
     ) {
-        return ResponseEntity.ok(courseService.updateTeacher(title, courseId,bindingResult));
+        return ResponseEntity.ok(courseService.updateTeacher(title, courseId, bindingResult));
     }
 
     @GetMapping("/getCoursesByLevel")
     @PreAuthorize(value = "permitAll()")
     public ResponseEntity<List<CourseEntity>> getCoursesByLevel(
-           @Valid @RequestParam String level,
-           BindingResult bindingResult
+            @Valid @RequestParam String level,
+            BindingResult bindingResult
     ) {
-        return ResponseEntity.ok(courseService.getCoursesByLevel(level,bindingResult));
+        return ResponseEntity.ok(courseService.getCoursesByLevel(level, bindingResult));
     }
 }

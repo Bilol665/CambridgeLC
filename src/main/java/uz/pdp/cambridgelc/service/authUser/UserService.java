@@ -30,12 +30,12 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
-    public UserEntity saveUser(UserCreateDto userDto, List<UserRole> role,BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public UserEntity saveUser(UserCreateDto userDto, List<UserRole> role,BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             List<ObjectError> errors = bindingResult.getAllErrors();
-            throw  new RequestValidationException(errors);
+            throw new RequestValidationException(errors);
         }
-        UserEntity userEntity = modelMapper.map(userDto,UserEntity.class);
+        UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
 //        switch (role.get(0)){
 //            case ROLE_ADMIN -> {
 //                GroupEntity group = groupRepository.findGroupEntityByName("ADMINS")
