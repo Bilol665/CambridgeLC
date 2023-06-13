@@ -30,31 +30,34 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
-    public UserEntity saveUser(UserCreateDto userDto, List<UserRole> role){
-
-        UserEntity userEntity = modelMapper.map(userDto,UserEntity.class);
-        switch (role.get(0)){
-            case ROLE_ADMIN -> {
-                GroupEntity group = groupRepository.findGroupEntityByName("ADMINS")
-                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
-                userEntity.setGroup(group);
-            }
-            case ROLE_TEACHER -> {
-                GroupEntity group = groupRepository.findGroupEntityByName("TEACHERS")
-                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
-                userEntity.setGroup(group);
-            }
-            case ROLE_SUPPORT -> {
-                GroupEntity group = groupRepository.findGroupEntityByName("SUPPORTS")
-                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
-                userEntity.setGroup(group);
-            }
-            case ROLE_SUPER_ADMIN -> {
-                GroupEntity group = groupRepository.findGroupEntityByName("SUPER_ADMINS")
-                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
-                userEntity.setGroup(group);
-            }
+    public UserEntity saveUser(UserCreateDto userDto, List<UserRole> role,BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw  new RequestValidationException(errors);
         }
+        UserEntity userEntity = modelMapper.map(userDto,UserEntity.class);
+//        switch (role.get(0)){
+//            case ROLE_ADMIN -> {
+//                GroupEntity group = groupRepository.findGroupEntityByName("ADMINS")
+//                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+//                userEntity.setGroup(group);
+//            }
+//            case ROLE_TEACHER -> {
+//                GroupEntity group = groupRepository.findGroupEntityByName("TEACHERS")
+//                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+//                userEntity.setGroup(group);
+//            }
+//            case ROLE_SUPPORT -> {
+//                GroupEntity group = groupRepository.findGroupEntityByName("SUPPORTS")
+//                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+//                userEntity.setGroup(group);
+//            }
+//            case ROLE_SUPER_ADMIN -> {
+//                GroupEntity group = groupRepository.findGroupEntityByName("SUPER_ADMINS")
+//                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+//                userEntity.setGroup(group);
+//            }
+//        }
         userEntity.setRoles(role);
         userEntity.setStatus(UserStatus.PAID);
         userEntity.setIsOut(false);
@@ -64,7 +67,11 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public JwtResponse login(LoginDto loginDto){
+    public JwtResponse login(LoginDto loginDto,BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw  new RequestValidationException(errors);
+        }
         UserEntity userEntity=userRepository.findUserEntityByUsername(loginDto.getUsername())
                 .orElseThrow(()-> new DataNotFoundException("User not found"));
         if (passwordEncoder.matches(loginDto.getPassword(),userEntity.getPassword())){
@@ -89,7 +96,11 @@ public class UserService {
         return userRepository.save(userEntity).getGroup();
     }
 
-    public void updateCreditsById(UUID userId,Integer credits){
+    public void updateCreditsById(UUID userId,Integer credits,BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw  new RequestValidationException(errors);
+        }
         UserEntity userEntity = userRepository
                 .getUserEntityById(userId).orElseThrow(()->new DataNotFoundException("User not found"));
         userEntity.setCredits(credits);
