@@ -23,11 +23,10 @@ public class GroupController {
     @DeleteMapping("/delete")
     @PreAuthorize(value = "hasAnyRole('ADMIN')")
     public ResponseEntity<Object> deleteGroup(
-            @Valid @RequestParam String name,
-            BindingResult bindingResult
+            @RequestParam String name
     ){
-      groupService.deleteGroupByName(bindingResult,name);
-      return ResponseEntity.status(204).build();
+        groupService.deleteGroupByName(name);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/add")
