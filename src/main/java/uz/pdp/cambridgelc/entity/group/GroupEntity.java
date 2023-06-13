@@ -20,7 +20,7 @@ public class GroupEntity extends BaseEntity {
     private String name;
     @ManyToOne
     private CourseEntity course;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private UserEntity teacher;
 
 }

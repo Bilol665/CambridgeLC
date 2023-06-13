@@ -1,5 +1,6 @@
 package uz.pdp.cambridgelc.config;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,5 +26,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {RequestValidationException.class})
     private ResponseEntity<String>RequestValidationException(RequestValidationException e){
         return ResponseEntity.status(400).body(e.getMessage());
+    }
+
+    @ExceptionHandler(value = {PSQLException.class})
+    public ResponseEntity<String> PSQLExceptionHandler(
+            PSQLException exception
+    ){
+        return ResponseEntity.status(400).body(exception.getMessage());
     }
 }
