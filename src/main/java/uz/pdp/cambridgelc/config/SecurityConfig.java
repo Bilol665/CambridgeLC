@@ -32,10 +32,9 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/group/get/allGroups").permitAll()
-                        .requestMatchers(adminOnly).hasRole("ADMIN")
-                        .requestMatchers("/api/v1/auth/addAdmin").hasRole("SUPPER_ADMIN")
+                        .requestMatchers("/api/v1/auth/**","/api/v1/user/**").permitAll()
+                        .requestMatchers(adminOnly).hasAnyRole("ADMIN","SUPER_ADMIN")
+                        .requestMatchers("/api/v1/auth/addAdmin").hasRole("SUPER_ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFilterToken(authenticationService,jwtService),

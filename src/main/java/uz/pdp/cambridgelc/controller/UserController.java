@@ -3,7 +3,6 @@ package uz.pdp.cambridgelc.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.UserCreateDto;
@@ -58,7 +57,6 @@ public class UserController {
     }
 
     @PostMapping("/add/groupStudent")
-    @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> addStudent(
             @RequestParam @Valid UUID courseId,
             @RequestParam @Valid String studentUsername,

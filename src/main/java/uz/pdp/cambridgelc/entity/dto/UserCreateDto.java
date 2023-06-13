@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.pdp.cambridgelc.entity.user.UserStatus;
 
 @AllArgsConstructor
 @NoArgsConstructor
