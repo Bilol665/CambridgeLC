@@ -33,6 +33,6 @@ public class BeanConfig {
     }
     @Bean
     public String courseXlsPath() {
-        return "C:\\Downloads\\LibraryWithSecurity JWT\\CambridgeLC\\src\\main\\resources\\courses.xlsx";
+        return "D:\\CambridgeLC\\src\\main\\resources\\courses.xlsx";
     }
 }
