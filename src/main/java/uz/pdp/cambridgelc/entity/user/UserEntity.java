@@ -1,7 +1,10 @@
 package uz.pdp.cambridgelc.entity.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +27,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String fullName;
     private Integer age;
     @NotBlank(message = "Password cannot be empty")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,}$",message = "Abdilaz odam bomisan")
     private String password;
     @NotBlank(message = "Phone number cannot be empty")
     @Column(unique = true)
@@ -42,7 +46,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         roles.forEach((role) -> {
-                authorities.add(new SimpleGrantedAuthority(role.name()));
+            authorities.add(new SimpleGrantedAuthority(role.name()));
         });
         return authorities;
     }

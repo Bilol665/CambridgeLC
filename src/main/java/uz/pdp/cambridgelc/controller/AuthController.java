@@ -1,7 +1,9 @@
 package uz.pdp.cambridgelc.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.LoginDto;
 import uz.pdp.cambridgelc.entity.dto.response.JwtResponse;
@@ -15,8 +17,9 @@ public class AuthController {
 
     @GetMapping("/login")
     private ResponseEntity<JwtResponse>login(
-            @RequestBody LoginDto loginDto
+            @Valid @RequestBody LoginDto loginDto,
+            BindingResult bindingResult
             ){
-        return ResponseEntity.ok(userService.login(loginDto));
+        return ResponseEntity.ok(userService.login(loginDto,bindingResult));
     }
 }

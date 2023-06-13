@@ -2,6 +2,7 @@ package uz.pdp.cambridgelc.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,45 +22,50 @@ public class UserController {
     private final UserService userService;
     @PostMapping("/addStudent")
     private ResponseEntity<UserEntity> addStudent(
-            @RequestBody UserCreateDto dto
+            @Valid @RequestBody  UserCreateDto dto,
+            BindingResult bindingResult
     ){
-        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_STUDENT)));
+        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_STUDENT),bindingResult));
     }
 
 
     @PostMapping("/addTeacher")
     private ResponseEntity<UserEntity> addTeacher(
-            @RequestBody UserCreateDto dto
+            @Valid @RequestBody  UserCreateDto dto,
+            BindingResult bindingResult
     ){
-        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_TEACHER)));
+        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_TEACHER),bindingResult));
     }
 
 
     @PostMapping("/addAdmin")
     private ResponseEntity<UserEntity> addAdmin(
-            @RequestBody UserCreateDto dto
+            @Valid @RequestBody  UserCreateDto dto,
+            BindingResult bindingResult
     ){
-        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_ADMIN)));
+        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_ADMIN),bindingResult));
     }
 
     @PostMapping("/addSuperAdmin")
     private ResponseEntity<UserEntity> addSuperAdmin(
-            @RequestBody UserCreateDto dto
+            @Valid @RequestBody  UserCreateDto dto,
+            BindingResult bindingResult
     ){
-        return ResponseEntity.ok(userService.saveUser(dto,List.of(UserRole.ROLE_SUPER_ADMIN)));
+        return ResponseEntity.ok(userService.saveUser(dto,List.of(UserRole.ROLE_SUPER_ADMIN),bindingResult));
     }
 
     @PostMapping("/addSupport")
     private ResponseEntity<UserEntity> addSupport(
-            @RequestBody UserCreateDto dto
+            @Valid @RequestBody  UserCreateDto dto,
+            BindingResult bindingResult
     ){
-        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_SUPPORT)));
+        return ResponseEntity.ok(userService.saveUser(dto, List.of(UserRole.ROLE_SUPPORT),bindingResult));
     }
 
     @PostMapping("/add/groupStudent")
     public ResponseEntity<GroupEntity> addStudent(
-            @RequestParam @Valid UUID courseId,
-            @RequestParam @Valid String studentUsername,
+            @Valid @RequestParam  UUID courseId,
+            @Valid @RequestParam  String studentUsername,
             BindingResult bindingResult
     ){
         return ResponseEntity.ok(userService.addStudent(bindingResult,courseId,studentUsername));
@@ -67,10 +73,11 @@ public class UserController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String>updateCreditsById(
-            @PathVariable UUID id,
-            @RequestParam Integer credits
+             @Valid @PathVariable  UUID id,
+             @Valid @RequestParam  Integer credits,
+            BindingResult bindingResult
     ){
-        userService.updateCreditsById(id,credits);
+        userService.updateCreditsById(id,credits,bindingResult);
         return ResponseEntity.status(200).body("Successfully updated");
     }
 }
