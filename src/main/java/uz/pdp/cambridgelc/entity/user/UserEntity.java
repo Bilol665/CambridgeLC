@@ -1,10 +1,6 @@
 package uz.pdp.cambridgelc.entity.user;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,13 +19,9 @@ import java.util.List;
 @Setter
 @Builder
 public class UserEntity extends BaseEntity implements UserDetails {
-    @NotBlank(message = "Full name cannot be empty")
     private String fullName;
     private Integer age;
-    @NotBlank(message = "Password cannot be empty")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,}$",message = "Abdilaz odam bomisan")
     private String password;
-    @NotBlank(message = "Phone number cannot be empty")
     @Column(unique = true)
     private String username;
     private Integer credits;
