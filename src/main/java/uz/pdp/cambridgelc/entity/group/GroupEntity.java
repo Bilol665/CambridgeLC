@@ -22,4 +22,5 @@ public class GroupEntity extends BaseEntity {
     private CourseEntity course;
     @ManyToOne(cascade = CascadeType.ALL)
     private UserEntity teacher;
+
 }
