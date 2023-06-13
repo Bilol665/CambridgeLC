@@ -10,10 +10,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.course.CourseLevel;
 import uz.pdp.cambridgelc.entity.dto.CourseDto;
 import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
+import uz.pdp.cambridgelc.exceptions.RequestValidationException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
 
 import java.io.FileOutputStream;
@@ -29,34 +32,58 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final ModelMapper modelMapper;
     private final String courseXlsPath;
-    public CourseEntity addCourse(CourseDto courseDto){
+
+    public CourseEntity addCourse(CourseDto courseDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
         CourseEntity course = modelMapper.map(courseDto, CourseEntity.class);
         try {
             course.setLevel(CourseLevel.valueOf(courseDto.getLevel()));
             return courseRepository.save(course);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new DataNotFoundException("Course level not found");
         }
     }
-    public void deleteByTitle(String title) {
+
+    public void deleteByTitle(String title, BindingResult result) {
+        if (result.hasErrors()) {
+            List<ObjectError> errors = result.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
         courseRepository.removeCourseEntityByTitle(title);
     }
 
-    public CourseEntity updateSupport(CourseDto courseDto, UUID id){
+    public CourseEntity updateSupport(CourseDto courseDto, UUID id, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
         CourseEntity course = courseRepository.findById(id).orElseThrow(
                 () -> new DataNotFoundException("Course not found!")
         );
-        modelMapper.map(courseDto,course);
+        modelMapper.map(courseDto, course);
         return courseRepository.save(course);
     }
-    public CourseEntity updateTeacher(String title,UUID id){
-        CourseEntity course=courseRepository.findById(id).orElseThrow(
-               () -> new DataNotFoundException("Course not found")
-       );
+
+    public CourseEntity updateTeacher(String title, UUID id, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
+        CourseEntity course = courseRepository.findById(id).orElseThrow(
+                () -> new DataNotFoundException("Course not found")
+        );
         course.setTitle(title);
         return courseRepository.save(course);
     }
-    public List<CourseEntity> getCoursesByLevel(String level) {
+
+    public List<CourseEntity> getCoursesByLevel(String level, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
         CourseLevel courseLevel;
         try {
             courseLevel = CourseLevel.valueOf(level);
@@ -65,10 +92,15 @@ public class CourseService {
         }
         return courseRepository.findByLevel(courseLevel);
     }
-    public List<CourseEntity> getToExcel(int page,int size){
-        Pageable pageable = PageRequest.of(page, size,Sort.by("createdDate").descending());
+
+    public List<CourseEntity> getToExcel(int page, int size, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            List<ObjectError>errors=bindingResult.getAllErrors();
+            throw new RequestValidationException(errors);
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         List<CourseEntity> courses = courseRepository.findAll(pageable).getContent();
-        try(Workbook workbook = new XSSFWorkbook()) {
+        try (Workbook workbook = new XSSFWorkbook()) {
             int rowCount = 0;
 
             Sheet sheet = workbook.createSheet("Courses");
@@ -104,7 +136,7 @@ public class CourseService {
             cell4.setCellStyle(style);
 
             int ko = 0;
-            for(CourseEntity course:courses) {
+            for (CourseEntity course : courses) {
                 Row row1 = sheet.createRow(rowCount++);
                 row1.createCell(ko++).setCellValue(course.getTitle());
                 row1.createCell(ko++).setCellValue(course.getDuration());
@@ -112,7 +144,7 @@ public class CourseService {
                 row1.createCell(ko++).setCellValue(course.getPrice());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 row1.createCell(ko).setCellValue(course.getCreatedDate().format(formatter));
-                ko=0;
+                ko = 0;
             }
             for (int i = 0; i < row.getLastCellNum(); i++) {
                 sheet.autoSizeColumn(i);

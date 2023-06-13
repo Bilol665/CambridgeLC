@@ -15,11 +15,12 @@ import uz.pdp.cambridgelc.entity.BaseEntity;
 @Setter
 @Builder
 public class CourseEntity extends BaseEntity {
-    @NotBlank
+    @NotBlank(message = "Can not be omitted")
     @Column(unique = true)
     private String title;
     @Enumerated(EnumType.STRING)
     private CourseLevel level;
     private Integer duration;
     private Double price;
+
 }
