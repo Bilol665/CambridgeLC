@@ -48,7 +48,7 @@ public class LessonService {
         lessons.add(lesson);
         course.setLessons(lessons);
         courseRepository.save(course);
-        return lesson;
+        return lessonRepository.findLessonEntitiesByTheme(lessonDto.getTheme()).get(0);
     }
 
     public void cancel(UUID id) {
