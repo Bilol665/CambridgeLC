@@ -93,11 +93,7 @@ public class CourseService {
         return courseRepository.findByLevel(courseLevel);
     }
 
-    public List<CourseEntity> getToExcel(int page, int size, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            List<ObjectError>errors=bindingResult.getAllErrors();
-            throw new RequestValidationException(errors);
-        }
+    public List<CourseEntity> getToExcel(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         List<CourseEntity> courses = courseRepository.findAll(pageable).getContent();
         try (Workbook workbook = new XSSFWorkbook()) {

@@ -17,7 +17,9 @@ public class TaskDto {
     @NotBlank(message = "Task title cannot be blank!")
     private String title;
     private Integer reward;
+    @NotBlank(message = "Description can not empty")
     private String description;
+    @NotBlank(message = "Answer can not empty")
     private String answer;
     private String difficulty;
 }
