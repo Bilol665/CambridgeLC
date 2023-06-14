@@ -1,5 +1,6 @@
 package uz.pdp.cambridgelc.entity.exam;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,6 +16,7 @@ import uz.pdp.cambridgelc.entity.BaseEntity;
 @Builder
 public class TaskEntity extends BaseEntity {
     @NotBlank(message = "Task title cannot be blank!")
+    @Column(unique = true)
     private String title;
     private Integer reward;
     private String description;

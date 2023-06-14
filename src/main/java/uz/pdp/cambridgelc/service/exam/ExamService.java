@@ -27,6 +27,7 @@ public class ExamService {
                 () -> new DataNotFoundException("Group not found!")
         );
         exam.setGroup(groupEntity);
+        exam.setStarted(false);
         return examRepository.save(exam);
     }
 
@@ -36,7 +37,7 @@ public class ExamService {
 //        );
 //        examEntity.setStarted(true);
 //        examRepository.save(examEntity);
-        examRepository.updateExamEntityById(examId,true);
+        examRepository.updateStartedStatusById(true,examId);
         return true;
     }
 }
