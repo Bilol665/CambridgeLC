@@ -7,5 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LessonRepository extends JpaRepository<LessonEntity,UUID> {
+    void removeLessonEntityById(UUID id);
     List<LessonEntity> findLessonEntitiesByTheme(String theme);
 }

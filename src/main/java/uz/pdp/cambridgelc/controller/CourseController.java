@@ -43,11 +43,10 @@ public class CourseController {
     @GetMapping("/getAll")
     @PreAuthorize(value = "permitAll()")
     public ResponseEntity<List<CourseEntity>> getAll(
-            @Valid @RequestParam int page,
-            @Valid @RequestParam int size,
-            BindingResult bindingResult
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size
     ) {
-        return ResponseEntity.ok(courseService.getToExcel(page, size, bindingResult));
+        return ResponseEntity.ok(courseService.getToExcel(page, size));
     }
 
     @PutMapping("/edit/{id}")
