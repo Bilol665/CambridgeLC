@@ -19,22 +19,22 @@ public class ShopController {
     private final ProductService productService;
     private final HistoryService historyService;
 
-    @PostMapping("/product/add-product")
+    @PostMapping("/add")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<Object> addProduct(
             @RequestBody ProductDto productDto
     ){
         return new ResponseEntity<>(productService.save(productDto), HttpStatus.OK);
     }
-    @GetMapping("/product/get-all")
+    @GetMapping("/get-all")
     @PreAuthorize(value = "permitAll()")
     public ResponseEntity<Object> getAll(
-            @RequestParam int page,
-            @RequestParam int size
+            @RequestParam(required = false,defaultValue = "0") int page,
+            @RequestParam(required = false,defaultValue = "10") int size
     ) {
         return ResponseEntity.ok(productService.getAll(page, size));
     }
-    @DeleteMapping("/product/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<Object> deleteProduct(@PathVariable UUID id){
         productService.deleteById(id);
