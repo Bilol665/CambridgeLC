@@ -11,11 +11,13 @@ import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
 import uz.pdp.cambridgelc.repository.ExamRepository;
 import uz.pdp.cambridgelc.repository.GroupRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ExamService {
-    private final ExamRepository examrepository;
+    private final ExamRepository examRepository;
     private final GroupRepository groupRepository;
     private final ModelMapper modelMapper;
 
@@ -25,7 +27,16 @@ public class ExamService {
                 () -> new DataNotFoundException("Group not found!")
         );
         exam.setGroup(groupEntity);
-        return examrepository.save(exam);
+        return examRepository.save(exam);
     }
 
+    public Boolean start(UUID examId) {
+//        ExamEntity examEntity = examRepository.findById(examId).orElseThrow(
+//                () -> new DataNotFoundException("Exam not found!")
+//        );
+//        examEntity.setStarted(true);
+//        examRepository.save(examEntity);
+        examRepository.updateExamEntityById(examId,true);
+        return true;
+    }
 }

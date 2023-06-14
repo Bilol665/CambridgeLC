@@ -1,23 +1,23 @@
 package uz.pdp.cambridgelc.entity.dto;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
+import uz.pdp.cambridgelc.entity.exam.TaskDifficulty;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class ExamDto {
-    @NotBlank(message = "exam title cannot be empty")
+public class TaskDto {
+    @NotBlank(message = "Task title cannot be blank!")
     private String title;
-    @NotBlank(message = "Group title cannot be empty")
-    private String groupTitle;
-    private Double acceptableScore;
     private Integer reward;
-    private List<TaskDto> tasks;
+    private String description;
+    private String answer;
+    private String difficulty;
 }
