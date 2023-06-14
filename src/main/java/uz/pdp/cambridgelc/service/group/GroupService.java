@@ -11,15 +11,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import uz.pdp.cambridgelc.entity.course.CourseEntity;
 import uz.pdp.cambridgelc.entity.dto.GroupCreateDto;
+import uz.pdp.cambridgelc.entity.exam.ExamEntity;
 import uz.pdp.cambridgelc.entity.group.GroupEntity;
 import uz.pdp.cambridgelc.entity.user.UserEntity;
 import uz.pdp.cambridgelc.exceptions.DataNotFoundException;
 import uz.pdp.cambridgelc.exceptions.RequestValidationException;
 import uz.pdp.cambridgelc.repository.CourseRepository;
+import uz.pdp.cambridgelc.repository.ExamRepository;
 import uz.pdp.cambridgelc.repository.GroupRepository;
 import uz.pdp.cambridgelc.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,6 +31,7 @@ public class GroupService {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+    private final ExamRepository examRepository;
     private final ModelMapper modelMapper;
 
     public GroupEntity save(BindingResult bindingResult,GroupCreateDto groupCreateDto){
@@ -46,20 +50,12 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-    public GroupEntity getGroup(BindingResult bindingResult,UUID groupId){
-        if (bindingResult.hasErrors()){
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw new RequestValidationException(errors);
-        }
+    public GroupEntity getGroup(UUID groupId){
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
     }
 
-    public GroupEntity updateGroupName(BindingResult bindingResult,UUID groupId, String name){
-        if (bindingResult.hasErrors()){
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw  new RequestValidationException(errors);
-        }
+    public GroupEntity updateGroupName(UUID groupId, String name){
         GroupEntity group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
 
@@ -67,11 +63,7 @@ public class GroupService {
         return groupRepository.save(group);
     }
 
-    public GroupEntity updateTeacher(BindingResult bindingResult,UUID groupId, String teacherUsername){
-        if (bindingResult.hasErrors()){
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw  new RequestValidationException(errors);
-        }
+    public GroupEntity updateTeacher(UUID groupId, String teacherUsername){
         GroupEntity group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
 
@@ -91,18 +83,21 @@ public class GroupService {
         Pageable pageable = PageRequest.of(page,size,sort);
         return groupRepository.findAll(pageable).getContent();
     }
-    public List<GroupEntity> getGroupsByTeacher(BindingResult bindingResult,String teacherUsername) {
-        if (bindingResult.hasErrors()){
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw  new RequestValidationException(errors);
-        }
+    public List<GroupEntity> getGroupsByTeacher(String teacherUsername) {
         return groupRepository.findByTeacher(userRepository.findUserEntityByUsername(teacherUsername).orElseThrow(
                 () -> new DataNotFoundException("Teacher not found!")
         ));
     }
     @Transactional
     public void deleteGroupByName(String name){
-        groupRepository.deleteGroupEntityByName(name)
-                .orElseThrow(()-> new DataNotFoundException("Group not found"));
+        GroupEntity groupEntity = groupRepository.findGroupEntityByName(name).orElseThrow(
+                () -> new DataNotFoundException("Group not found!")
+        );
+        List<ExamEntity> examEntitiesByGroup = examRepository.findExamEntitiesByGroup(groupEntity);
+        for(ExamEntity ea:examEntitiesByGroup) {
+            ea.setGroup(null);
+            groupRepository.deleteGroupEntityByName(name);
+            examRepository.save(ea);
+        }
     }
 }

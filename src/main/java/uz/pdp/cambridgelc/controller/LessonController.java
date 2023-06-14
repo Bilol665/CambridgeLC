@@ -21,7 +21,7 @@ public class LessonController {
     @PostMapping("/add/{courseId}")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<Object> addLesson(
-            @Valid @PathVariable UUID courseId,
+            @PathVariable UUID courseId,
             @Valid @RequestBody LessonDto lessonDto,
             BindingResult bindingResult
     ) {
@@ -31,21 +31,18 @@ public class LessonController {
     @DeleteMapping("/cancel/{id}")
     @PreAuthorize(value = "hasRole('TEACHER')")
     public ResponseEntity<HttpStatus> cancel(
-            @Valid @PathVariable UUID id,
-            BindingResult bindingResult
+            @PathVariable UUID id
     ) {
-        lessonService.cancel(id, bindingResult);
+        lessonService.cancel(id);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
-    @PutMapping("changeTopic/{id}")
+    @PutMapping("/changeTopic/{id}")
     @PreAuthorize(value = "hasRole('TEACHER')")
     public ResponseEntity<Object> changeTopic(
-            @Valid @PathVariable UUID id,
-            @Valid @RequestParam String theme,
-            BindingResult bindingResult
+            @PathVariable UUID id,
+            @RequestParam(required = false,defaultValue = "") String theme
     ) {
-        return new ResponseEntity<>(lessonService.changeTopic(id, theme, bindingResult),HttpStatus.OK);
+        return new ResponseEntity<>(lessonService.changeTopic(id, theme),HttpStatus.OK);
     }
     @GetMapping("/getAll")
     @PreAuthorize(value = "permitAll()")

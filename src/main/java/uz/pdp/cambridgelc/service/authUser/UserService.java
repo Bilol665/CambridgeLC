@@ -36,28 +36,28 @@ public class UserService {
             throw new RequestValidationException(errors);
         }
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
-        switch (role.get(0)){
-            case ROLE_ADMIN -> {
-                GroupEntity group = groupRepository.findGroupEntityByName("ADMINS")
-                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
-                userEntity.setGroup(group);
-            }
-            case ROLE_TEACHER -> {
-                GroupEntity group = groupRepository.findGroupEntityByName("TEACHERS")
-                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
-                userEntity.setGroup(group);
-            }
-            case ROLE_SUPPORT -> {
-                GroupEntity group = groupRepository.findGroupEntityByName("SUPPORTS")
-                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
-                userEntity.setGroup(group);
-            }
-            case ROLE_SUPER_ADMIN -> {
-                GroupEntity group = groupRepository.findGroupEntityByName("SUPER_ADMINS")
-                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
-                userEntity.setGroup(group);
-            }
-        }
+//        switch (role.get(0)){
+//            case ROLE_ADMIN -> {
+//                GroupEntity group = groupRepository.findGroupEntityByName("ADMINS")
+//                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+//                userEntity.setGroup(group);
+//            }
+//            case ROLE_TEACHER -> {
+//                GroupEntity group = groupRepository.findGroupEntityByName("TEACHERS")
+//                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+//                userEntity.setGroup(group);
+//            }
+//            case ROLE_SUPPORT -> {
+//                GroupEntity group = groupRepository.findGroupEntityByName("SUPPORTS")
+//                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+//                userEntity.setGroup(group);
+//            }
+//            case ROLE_SUPER_ADMIN -> {
+//                GroupEntity group = groupRepository.findGroupEntityByName("SUPER_ADMINS")
+//                        .orElseThrow(() -> new DataNotFoundException("Group Not Found"));
+//                userEntity.setGroup(group);
+//            }
+//        }
         userEntity.setRoles(role);
         userEntity.setStatus(UserStatus.PAID);
         userEntity.setIsOut(false);
@@ -81,11 +81,7 @@ public class UserService {
         throw new FailedAuthorizeException("User status unpaid or password is incorrect !");
     }
 
-    public GroupEntity addStudent(BindingResult bindingResult, UUID groupId, String studentUsername){
-        if (bindingResult.hasErrors()){
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw  new RequestValidationException(errors);
-        }
+    public GroupEntity addStudent(UUID groupId, String studentUsername){
         GroupEntity groupEntity = groupRepository.findById(groupId).orElseThrow(
                 () -> new DataNotFoundException("Group not found!")
         );

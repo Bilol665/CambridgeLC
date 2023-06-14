@@ -32,11 +32,9 @@ public class CourseController {
     @DeleteMapping("/delete")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> deleteCourse(
-            @Valid @RequestParam String title,
-            BindingResult bindingResult
-
+            @RequestParam String title
     ) {
-        courseService.deleteByTitle(title, bindingResult);
+        courseService.deleteByTitle(title);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -52,7 +50,7 @@ public class CourseController {
     @PutMapping("/edit/{id}")
     @PreAuthorize(value = "hasAnyRole('ADMIN','SUPER_ADMIN')")
     public ResponseEntity<CourseEntity> editCourse(
-            @Valid @PathVariable UUID id,
+            @PathVariable UUID id,
             @Valid @RequestBody CourseDto courseDto,
             BindingResult bindingResult
     ) {
@@ -62,19 +60,17 @@ public class CourseController {
     @PutMapping("/edit-title/{courseId}")
     @PreAuthorize(value = "hasRole('TEACHER')")
     public ResponseEntity<CourseEntity> editTitle(
-            @Valid @PathVariable UUID courseId,
-            @Valid @RequestParam String title,
-            BindingResult bindingResult
+            @PathVariable UUID courseId,
+            @RequestParam String title
     ) {
-        return ResponseEntity.ok(courseService.updateTeacher(title, courseId, bindingResult));
+        return ResponseEntity.ok(courseService.updateTeacher(title, courseId));
     }
 
     @GetMapping("/getCoursesByLevel")
     @PreAuthorize(value = "permitAll()")
     public ResponseEntity<List<CourseEntity>> getCoursesByLevel(
-            @Valid @RequestParam String level,
-            BindingResult bindingResult
+            @RequestParam String level
     ) {
-        return ResponseEntity.ok(courseService.getCoursesByLevel(level, bindingResult));
+        return ResponseEntity.ok(courseService.getCoursesByLevel(level));
     }
 }
