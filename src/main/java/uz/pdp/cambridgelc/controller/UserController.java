@@ -64,11 +64,10 @@ public class UserController {
 
     @PostMapping("/add/groupStudent")
     public ResponseEntity<GroupEntity> addStudent(
-            @Valid @RequestParam  UUID courseId,
-            @Valid @RequestParam  String studentUsername,
-            BindingResult bindingResult
+            @RequestParam  UUID courseId,
+            @RequestParam(required = false,defaultValue = "")  String studentUsername
     ){
-        return ResponseEntity.ok(userService.addStudent(bindingResult,courseId,studentUsername));
+        return ResponseEntity.ok(userService.addStudent(courseId,studentUsername));
     }
 
     @PutMapping("/update/{id}")

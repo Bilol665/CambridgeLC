@@ -1,9 +1,11 @@
 package uz.pdp.cambridgelc.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.ExamDto;
 import uz.pdp.cambridgelc.entity.exam.ExamEntity;
@@ -21,9 +23,10 @@ public class ExamController {
     @PostMapping("/add")
     @PreAuthorize(value = "hasAnyRole('ADMIN','TEACHER')")
     public ResponseEntity<ExamEntity> addExam(
-            @RequestBody ExamDto examDto
+            @Valid @RequestBody ExamDto examDto,
+            BindingResult bindingResult
     ){
-        return ResponseEntity.ok(examService.add(examDto));
+        return ResponseEntity.ok(examService.add(examDto,bindingResult));
     }
     @PutMapping("/start/{examId}")
     @PreAuthorize(value = "hasAnyRole('ADMIN','TEACHER')")

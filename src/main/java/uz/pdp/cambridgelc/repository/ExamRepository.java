@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import uz.pdp.cambridgelc.entity.exam.ExamEntity;
+import uz.pdp.cambridgelc.entity.group.GroupEntity;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,4 +18,5 @@ public interface ExamRepository extends JpaRepository<ExamEntity, UUID> {
     @Modifying
     @Query("update exams e set e.started = :status where e.id = :id")
     void updateStartedStatusById(@Param("status") boolean status, @Param("id") UUID id);
+    List<ExamEntity> findExamEntitiesByGroup(GroupEntity group);
 }

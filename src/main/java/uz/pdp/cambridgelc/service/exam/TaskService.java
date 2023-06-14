@@ -20,6 +20,7 @@ import uz.pdp.cambridgelc.repository.UserRepository;
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -86,8 +87,16 @@ public class TaskService {
         return taskEntity;
     }
     public void delete(UUID taskId) {
-        taskRepository.deleteTaskEntityById(taskId).orElseThrow(
-                () -> new DataNotFoundException("Task not found!")
+        TaskEntity task = taskRepository.findById(taskId).orElseThrow(
+                () -> new DataNotFoundException("task not found")
         );
+        List<ExamEntity> all = examRepository.findAll();
+        for(ExamEntity exam:all) {
+            List<TaskEntity> tasks = exam.getTasks();
+            tasks.remove(task);
+            exam.setTasks(tasks);
+            examRepository.save(exam);
+        }
+        taskRepository.deleteTaskEntityById(taskId);
     }
 }

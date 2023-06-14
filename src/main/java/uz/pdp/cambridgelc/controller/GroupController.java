@@ -41,30 +41,27 @@ public class GroupController {
     @GetMapping("/get")
     @PreAuthorize(value = "hasAnyRole('ADMIN','TEACHER','SUPPORT')")
     public ResponseEntity<GroupEntity> getGroup(
-            @Valid @RequestParam UUID groupId,
-            BindingResult bindingResult
+            @RequestParam UUID groupId
     ){
-            return ResponseEntity.ok(groupService.getGroup(bindingResult,groupId));
+            return ResponseEntity.ok(groupService.getGroup(groupId));
     }
 
     @PostMapping("/updateName")
     @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','TEACHER')")
     public ResponseEntity<GroupEntity> updateName(
-            @Valid @RequestParam UUID groupId,
-            @Valid @RequestParam String name,
-            BindingResult bindingResult
+            @RequestParam UUID groupId,
+            @RequestParam String name
     ){
-            return ResponseEntity.ok(groupService.updateGroupName(bindingResult,groupId,name));
+            return ResponseEntity.ok(groupService.updateGroupName(groupId,name));
     }
 
     @PostMapping("/updateTeacher")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<GroupEntity> updateTeacher(
-            @Valid @RequestParam UUID groupId,
-            @Valid @RequestParam String newTeacher,
-            BindingResult bindingResult
+            @RequestParam UUID groupId,
+            @RequestParam String newTeacher
     ){
-            return ResponseEntity.ok(groupService.updateTeacher(bindingResult,groupId,newTeacher));
+            return ResponseEntity.ok(groupService.updateTeacher(groupId,newTeacher));
     }
 
     @GetMapping("/getAllGroups")
@@ -79,9 +76,8 @@ public class GroupController {
     @GetMapping("/getGroupsByTeacher")
     @PreAuthorize(value = "permitAll()")
     public ResponseEntity<List<GroupEntity>> getAllByTeacher(
-            @Valid @RequestParam  String username,
-            BindingResult bindingResult
+            @RequestParam  String username
     ){
-        return ResponseEntity.ok(groupService.getGroupsByTeacher(bindingResult,username));
+        return ResponseEntity.ok(groupService.getGroupsByTeacher(username));
     }
 }

@@ -51,18 +51,20 @@ public class LessonService {
         return lesson;
     }
 
-    public void cancel(UUID id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw new RequestValidationException(errors);
+    public void cancel(UUID id) {
+        LessonEntity lessonEntity = lessonRepository.findById(id).orElseThrow(
+                () -> new DataNotFoundException("lesson not found!")
+        );
+        List<CourseEntity> all = courseRepository.findAll();
+        for(CourseEntity c:all) {
+            List<LessonEntity> lessons = c.getLessons();
+            lessons.remove(lessonEntity);
+            c.setLessons(lessons);
+            courseRepository.save(c);
         }
         lessonRepository.removeLessonEntityById(id);
     }
-    public LessonEntity changeTopic(UUID id, String theme, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw new RequestValidationException(errors);
-        }
+    public LessonEntity changeTopic(UUID id, String theme) {
         LessonEntity lesson = lessonRepository.findById(id).orElseThrow(
                 () -> new DataNotFoundException("Theme not found!")
         );

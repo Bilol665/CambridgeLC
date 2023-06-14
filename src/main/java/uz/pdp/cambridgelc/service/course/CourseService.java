@@ -47,11 +47,7 @@ public class CourseService {
         }
     }
 
-    public void deleteByTitle(String title, BindingResult result) {
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            throw new RequestValidationException(errors);
-        }
+    public void deleteByTitle(String title) {
         courseRepository.removeCourseEntityByTitle(title);
     }
 
@@ -67,11 +63,7 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
-    public CourseEntity updateTeacher(String title, UUID id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw new RequestValidationException(errors);
-        }
+    public CourseEntity updateTeacher(String title, UUID id) {
         CourseEntity course = courseRepository.findById(id).orElseThrow(
                 () -> new DataNotFoundException("Course not found")
         );
@@ -79,11 +71,7 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
-    public List<CourseEntity> getCoursesByLevel(String level, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            throw new RequestValidationException(errors);
-        }
+    public List<CourseEntity> getCoursesByLevel(String level) {
         CourseLevel courseLevel;
         try {
             courseLevel = CourseLevel.valueOf(level);

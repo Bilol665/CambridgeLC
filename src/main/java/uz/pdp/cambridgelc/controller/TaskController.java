@@ -32,7 +32,7 @@ public class TaskController {
     @PreAuthorize(value = "hasRole('STUDENT')")
     public ResponseEntity<Boolean> checkTask(
             @PathVariable UUID taskId,
-            @RequestParam String answer,
+            @RequestParam(required = false,defaultValue = "") String answer,
             @RequestParam UUID examId,
             Principal principal
     ){

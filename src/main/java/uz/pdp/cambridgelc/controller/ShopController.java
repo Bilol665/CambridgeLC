@@ -1,9 +1,11 @@
 package uz.pdp.cambridgelc.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.ProductDto;
 import uz.pdp.cambridgelc.service.history.HistoryService;
@@ -22,9 +24,10 @@ public class ShopController {
     @PostMapping("/add")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<Object> addProduct(
-            @RequestBody ProductDto productDto
+            @Valid @RequestBody ProductDto productDto,
+            BindingResult bindingResult
     ){
-        return new ResponseEntity<>(productService.save(productDto), HttpStatus.OK);
+        return new ResponseEntity<>(productService.save(productDto,bindingResult), HttpStatus.OK);
     }
     @GetMapping("/get-all")
     @PreAuthorize(value = "permitAll()")
@@ -43,7 +46,7 @@ public class ShopController {
     @PutMapping("/product/update-title/{id}")
     @PreAuthorize(value = "hasAnyRole('ADMIN','SUPPORT','SUPER_ADMIN')")
     public ResponseEntity<HttpStatus> updateTitle(
-            @RequestParam String title,
+            @RequestParam(required = false,defaultValue = "") String title,
             @PathVariable UUID id
     ) {
         productService.editTitle(title,id);
