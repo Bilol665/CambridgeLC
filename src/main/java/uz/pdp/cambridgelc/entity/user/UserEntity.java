@@ -19,6 +19,7 @@ import java.util.List;
 @Setter
 @Builder
 public class UserEntity extends BaseEntity implements UserDetails {
+    private String email;
     private String fullName;
     private Integer age;
     private String password;
@@ -33,13 +34,12 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private UserStatus status;
     @ManyToOne(cascade = CascadeType.ALL)
     private GroupEntity group;
+    private Boolean isVerified;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        roles.forEach((role) -> {
-            authorities.add(new SimpleGrantedAuthority(role.name()));
-        });
+        roles.forEach((role) -> authorities.add(new SimpleGrantedAuthority(role.name())));
         return authorities;
     }
 

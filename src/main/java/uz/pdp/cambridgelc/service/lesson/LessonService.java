@@ -1,4 +1,4 @@
-package uz.pdp.cambridgelc.service;
+package uz.pdp.cambridgelc.service.lesson;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
