@@ -64,6 +64,7 @@ public class UserService {
         userEntity.setCredits(0);
         userEntity.setSolvedTasks(0);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        userEntity.setIsVerified(false);
         return userRepository.save(userEntity);
     }
 

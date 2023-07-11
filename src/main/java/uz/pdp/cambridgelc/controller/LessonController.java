@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cambridgelc.entity.dto.LessonDto;
 import uz.pdp.cambridgelc.entity.lesson.LessonEntity;
-import uz.pdp.cambridgelc.service.LessonService;
+import uz.pdp.cambridgelc.service.lesson.LessonService;
 import java.util.List;
 import java.util.UUID;
 
