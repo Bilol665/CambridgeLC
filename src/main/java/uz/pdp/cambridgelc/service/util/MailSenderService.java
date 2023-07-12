@@ -11,6 +11,7 @@ import uz.pdp.cambridgelc.repository.UserRepository;
 
 import java.security.Principal;
 import java.util.Objects;
+import java.util.Random;
 
 @Service
 public class MailSenderService {
@@ -27,7 +28,8 @@ public class MailSenderService {
                 () -> new DataNotFoundException("User not found!")
         );
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        String message = String.valueOf(Math.random());
+        Random random = new Random();
+        String message = String.valueOf(random.nextInt(1000,9999));
         simpleMailMessage.setFrom(sender);
         simpleMailMessage.setText(message);
         simpleMailMessage.setTo(userEntity.getEmail());
@@ -39,8 +41,10 @@ public class MailSenderService {
         UserEntity userEntity = userRepository.findUserEntityByUsername(principal.getName()).orElseThrow(
                 () -> new DataNotFoundException("User not found!")
         );
-        if(Objects.equals(verifyCode, this.verifyCode))
+        if(Objects.equals(verifyCode, this.verifyCode)) {
             userEntity.setIsVerified(true);
-        return true;
+            return true;
+        }
+        return false;
     }
 }
